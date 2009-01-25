@@ -7,8 +7,13 @@
 #include "shell.h"
 #include "node.h"
 
+/* handle multiple root nodes */
 struct node_list *_nodes = NULL;
 unsigned int _nodenum = 0;
+
+/* current root node */
+struct node_list *_current = NULL;
+unsigned int _current_num = 0;
 
 struct _commands {
 	char *command;
@@ -16,8 +21,10 @@ struct _commands {
 } commands[SHELL_N_FUNCS] = {
 	{ "createroot", cmd_create_root },
 	{ "deleteroot",	cmd_delete_root },
+	{ "getroot",		cmd_get_root },
 	{ "listroot",		cmd_list_root },
 	{ "ls",					cmd_ls },
+	{ "setroot",		cmd_set_root },
 };
 
 void
@@ -263,14 +270,49 @@ cmd_delete_root(char *argline) {
 	}
 	_nodenum--;
 
+	if (_current == deletion) {
+		_current = NULL;
+		_current_num = 0;
+	}
+
 	node_delete(deletion->node);
 	free(deletion);
 
 	return 1;
 }
 
+int
+cmd_set_root(char *argline) {
+	unsigned int rootnum;
+	struct node_list *root;
+
+	rootnum = atoi(argline);
+	if (rootnum == 0)
+		return E_INVALID_SYNTAX;
+
+	root = _node_from_num(rootnum);
+	if (root == NULL)
+		return E_OUT_OF_BOUNDS;
+
+	_set_current_root(root, rootnum);
+
+	return 1;
+}
+
+int
+cmd_get_root(char *argline) {
+	if (*argline)
+		return E_INVALID_SYNTAX;
+
+	if (_current == NULL)
+		printf("No current root node set\n");
+	else printf("%0d: %s\n", _current_num, _current->node->name);
+
+	return 1;
+}
+
 struct node_list *
-_node_from_num(int num) {
+_node_from_num(unsigned int num) {
 	/* Given the ordinal number returned from listroot, returns
 	 * the specified root node
 	 */
@@ -287,4 +329,15 @@ _node_from_num(int num) {
 	}
 
 	return tmp;
+}
+
+void
+_set_current_root(struct node_list *root, unsigned int rootnum) {
+	_current = root;
+	_current_num = rootnum;
+}
+
+unsigned int
+_get_current_root(void) {
+	return _current_num;
 }
