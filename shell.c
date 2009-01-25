@@ -15,10 +15,14 @@ unsigned int _nodenum = 0;
 struct node_list *_current_root = NULL;
 unsigned int _current_root_num = 0;
 
+/* current node */
+struct node *_current = NULL;
+
 struct _commands {
 	char *command;
 	void *func;
 } commands[SHELL_N_FUNCS] = {
+	{ "adddir",			cmd_add_dir },
 	{ "createroot", cmd_create_root },
 	{ "deleteroot",	cmd_delete_root },
 	{ "getroot",		cmd_get_root },
@@ -136,6 +140,9 @@ shell_parse_line(char *line) {
 			free(tmp);
 
 		switch(ret) {
+			case E_FILE_CHILD:
+				printf("Can't add a child to a FILE node\n");
+				break;
 			case E_INVALID_SYNTAX:
 				printf("Invalid syntax\n");
 				break;
@@ -192,6 +199,20 @@ shell_cleanup(void) {
 		node_delete(tmp->node);
 		tmp = tmp->next;
 	}
+}
+
+int
+cmd_add_dir(char *argline) {
+	if (!*argline)
+		return E_INVALID_SYNTAX;
+
+	if (_current_root == NULL)
+		return E_NO_ROOT;
+
+	if (_current == NULL)
+		return E_NO_DIR;
+
+	return node_add_child(_current, node_create(argline, N_FILE));
 }
 
 int
@@ -276,6 +297,7 @@ cmd_delete_root(char *argline) {
 	if (_current_root == deletion) {
 		_current_root = NULL;
 		_current_root_num = 0;
+		_current = NULL;
 	}
 
 	node_delete(deletion->node);
@@ -338,6 +360,7 @@ void
 _set_current_root(struct node_list *root, unsigned int rootnum) {
 	_current_root = root;
 	_current_root_num = rootnum;
+	_current = root->node;
 }
 
 unsigned int
