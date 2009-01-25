@@ -5,3 +5,7 @@ autom4te.cache
 config.log
 config.status
 config.cache
+
+src/.deps
+src/config.h
+src/stamp-h1

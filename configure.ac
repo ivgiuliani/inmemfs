@@ -7,6 +7,6 @@ AC_CHECK_HEADERS([readline/readline.h])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2])
 AC_PROG_CC
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT

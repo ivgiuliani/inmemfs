@@ -2,6 +2,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#include "config.h"
 #include "common.h"
 #include "errors.h"
 #include "shell.h"
@@ -39,6 +40,8 @@ shell(void) {
 	/* set up completion */
 	rl_attempted_completion_function = shell_completion;
 
+	shell_hello();
+
 	do {
 		line = readline(RL_PROMPT);
 
@@ -56,6 +59,11 @@ shell(void) {
 	} while (!exit);
 
 	shell_cleanup();
+}
+
+void
+shell_hello(void) {
+	printf("-- "PACKAGE_NAME" shell ("PACKAGE_VERSION") --\n\n");
 }
 
 /* Attempt to complete on the contents of TEXT.  START and END show the
