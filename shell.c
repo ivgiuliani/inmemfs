@@ -190,7 +190,7 @@ shell_binsearch_cmd(char *cmd) {
 void
 shell_cleanup(void) {
 	/* Cleans data structures used in the shell
-	 * (mostly reference to root nodes
+	 * (mostly references to root nodes)
 	 */
 	struct node_list *tmp;
 	tmp = _nodes;
@@ -345,7 +345,7 @@ cmd_get_root(char *argline) {
 
 	if (_current_root == NULL)
 		printf("No current root node set\n");
-	else printf("%0d: %s\n", _current_root_num, _current_root->node->name);
+	else printf("%2d: %s\n", _current_root_num, _current_root->node->name);
 
 	return 1;
 }
