@@ -2678,9 +2678,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-{ echo "$as_me:$LINENO: checking for  in -lreadline" >&5
-echo $ECHO_N "checking for  in -lreadline... $ECHO_C" >&6; }
-if test "${ac_cv_lib_readline_+set}" = set; then
+{ echo "$as_me:$LINENO: checking for readline in -lreadline" >&5
+echo $ECHO_N "checking for readline in -lreadline... $ECHO_C" >&6; }
+if test "${ac_cv_lib_readline_readline+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -2698,11 +2698,11 @@ cat >>conftest.$ac_ext <<_ACEOF
 #ifdef __cplusplus
 extern "C"
 #endif
-char  ();
+char readline ();
 int
 main ()
 {
-return  ();
+return readline ();
   ;
   return 0;
 }
@@ -2725,21 +2725,21 @@ eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
 	 test ! -s conftest.err
        } && test -s conftest$ac_exeext &&
        $as_test_x conftest$ac_exeext; then
-  ac_cv_lib_readline_=yes
+  ac_cv_lib_readline_readline=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-	ac_cv_lib_readline_=no
+	ac_cv_lib_readline_readline=no
 fi
 
 rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
       conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ echo "$as_me:$LINENO: result: $ac_cv_lib_readline_" >&5
-echo "${ECHO_T}$ac_cv_lib_readline_" >&6; }
-if test $ac_cv_lib_readline_ = yes; then
+{ echo "$as_me:$LINENO: result: $ac_cv_lib_readline_readline" >&5
+echo "${ECHO_T}$ac_cv_lib_readline_readline" >&6; }
+if test $ac_cv_lib_readline_readline = yes; then
   cat >>confdefs.h <<_ACEOF
 #define HAVE_LIBREADLINE 1
 _ACEOF
