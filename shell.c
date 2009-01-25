@@ -12,8 +12,8 @@ struct node_list *_nodes = NULL;
 unsigned int _nodenum = 0;
 
 /* current root node */
-struct node_list *_current = NULL;
-unsigned int _current_num = 0;
+struct node_list *_current_root = NULL;
+unsigned int _current_root_num = 0;
 
 struct _commands {
 	char *command;
@@ -145,6 +145,9 @@ shell_parse_line(char *line) {
 			case E_OUT_OF_BOUNDS:
 				printf("Invalid range (out of bounds)\n");
 				break;
+			case E_NO_ROOT:
+				printf("No root node selected\n");
+				break;
 		}
 	}
 
@@ -270,9 +273,9 @@ cmd_delete_root(char *argline) {
 	}
 	_nodenum--;
 
-	if (_current == deletion) {
-		_current = NULL;
-		_current_num = 0;
+	if (_current_root == deletion) {
+		_current_root = NULL;
+		_current_root_num = 0;
 	}
 
 	node_delete(deletion->node);
@@ -304,9 +307,9 @@ cmd_get_root(char *argline) {
 	if (*argline)
 		return E_INVALID_SYNTAX;
 
-	if (_current == NULL)
+	if (_current_root == NULL)
 		printf("No current root node set\n");
-	else printf("%0d: %s\n", _current_num, _current->node->name);
+	else printf("%0d: %s\n", _current_root_num, _current_root->node->name);
 
 	return 1;
 }
@@ -314,7 +317,7 @@ cmd_get_root(char *argline) {
 struct node_list *
 _node_from_num(unsigned int num) {
 	/* Given the ordinal number returned from listroot, returns
-	 * the specified root node
+	 * the specified root nodo
 	 */
 	unsigned int i = 0;
 	struct node_list *tmp = _nodes;
@@ -333,11 +336,11 @@ _node_from_num(unsigned int num) {
 
 void
 _set_current_root(struct node_list *root, unsigned int rootnum) {
-	_current = root;
-	_current_num = rootnum;
+	_current_root = root;
+	_current_root_num = rootnum;
 }
 
 unsigned int
 _get_current_root(void) {
-	return _current_num;
+	return _current_root_num;
 }
