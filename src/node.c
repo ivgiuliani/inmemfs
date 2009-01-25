@@ -44,9 +44,10 @@ node_delete(struct node *n) {
 
 		while (nl != NULL) {
 			subnode = nl->node;
+			next = nl->next;
+
 			node_delete(subnode);
 
-			next = nl->next;
 			free(nl);
 			nl = next;
 		}
@@ -65,10 +66,12 @@ node_add_child(struct node *father, struct node *children) {
 	}
 
 	if (children_no == 0) {
-		/* initalizes the children list (we have deferred its initalization */
-		father->childrens = (struct node_list *)malloc(sizeof(struct node_list));
-		memset(father->childrens, 0, sizeof(struct node_list));
+		/* initalizes the children list (we have deferred its initalization) */
+		father->childrens = node_list_create();
+
 		father->childrens->node = children;
+		father->childrens->prev = NULL;
+		father->childrens->next = NULL;
 	} else {
 		tmp = node_get_nth_children_nl(father, children_no);
 		nl = node_list_create();
@@ -78,6 +81,7 @@ node_add_child(struct node *father, struct node *children) {
 		while (tmpnl->next != NULL)
 			tmpnl = tmpnl->next;
 		tmpnl->next = nl;
+		nl->prev = tmpnl;
 	}
 	father->children_no += 1;
 

@@ -8,6 +8,7 @@ enum node_type { N_FILE, N_DIRECTORY };
 struct node_list {
 	struct node *node;
 	struct node_list *next;
+	struct node_list *prev;
 };
 
 struct node {
