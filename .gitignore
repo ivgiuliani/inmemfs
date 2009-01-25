@@ -1,3 +1,7 @@
 *.o
 *.swp
 inmemfs
+autom4te.cache
+config.log
+config.status
+config.cache
