@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -35,20 +36,28 @@ node_set_name(struct node *node, char *name) {
 
 void
 node_delete(struct node *n) {
-	int i;
+	struct node *subnode;
+	struct node_list *nl, *next;
 
-	for (i = 0; i < node_get_children_no(n); i++) {
-		/* recursively delete all the children nodes */
-		node_delete(node_get_nth_children(n, i));
+	if (n->childrens != NULL) {
+		nl = n->childrens;
+
+		while (nl != NULL) {
+			subnode = nl->node;
+			node_delete(subnode);
+
+			next = nl->next;
+			free(nl);
+			nl = next;
+		}
 	}
 
-	free(n->childrens);
 	free(n);
 }
 
 int
 node_add_child(struct node *father, struct node *children) {
-	struct node_list *tmp, *nl;
+	struct node_list *tmp, *nl, *tmpnl;
 	unsigned int children_no = node_get_children_no(father);
 
 	if (father->type == N_FILE) {
@@ -58,11 +67,17 @@ node_add_child(struct node *father, struct node *children) {
 	if (children_no == 0) {
 		/* initalizes the children list (we have deferred its initalization */
 		father->childrens = (struct node_list *)malloc(sizeof(struct node_list));
+		memset(father->childrens, 0, sizeof(struct node_list));
 		father->childrens->node = children;
 	} else {
 		tmp = node_get_nth_children_nl(father, children_no);
 		nl = node_list_create();
 		nl->node = children;
+
+		tmpnl = father->childrens;
+		while (tmpnl->next != NULL)
+			tmpnl = tmpnl->next;
+		tmpnl->next = nl;
 	}
 	father->children_no += 1;
 

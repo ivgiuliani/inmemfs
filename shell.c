@@ -195,6 +195,8 @@ shell_cleanup(void) {
 	struct node_list *tmp;
 	tmp = _nodes;
 
+	_current = NULL;
+
 	while (tmp != NULL) {
 		node_delete(tmp->node);
 		tmp = tmp->next;
@@ -217,10 +219,22 @@ cmd_add_dir(char *argline) {
 
 int
 cmd_ls(char *argline) {
-	if (!strcmp(argline, "."))
-		return E_INVALID_SYNTAX;
+	struct node_list *nl;
 
-	printf("ls OK\n");
+	if (_current_root == NULL)
+		return E_NO_ROOT;
+
+	if (_current == NULL)
+		return E_NO_DIR;
+
+	if (_current->children_no != 0) {
+		nl = _current->childrens;
+		while (nl != NULL) {
+			printf("%s\n", nl->node->name);
+			nl = nl->next;
+		}
+	}
+
 	return 1;
 }
 
