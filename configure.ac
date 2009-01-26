@@ -6,7 +6,9 @@ AC_CHECK_LIB([readline], [readline])
 AC_CHECK_HEADERS([readline/readline.h])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2])
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
+
 AC_PROG_CC
 AC_CONFIG_HEADERS([src/config.h])
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile])
 AC_OUTPUT
