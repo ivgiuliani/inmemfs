@@ -23,13 +23,13 @@ struct _commands {
 	char *command;
 	void *func;
 } commands[SHELL_N_FUNCS] = {
-	{ "adddir",			cmd_add_dir },
 	{ "createroot", cmd_create_root },
-	{ "deleteroot",	cmd_delete_root },
-	{ "getroot",		cmd_get_root },
-	{ "listroot",		cmd_list_root },
-	{ "ls",					cmd_ls },
-	{ "setroot",		cmd_set_root },
+	{ "deleteroot", cmd_delete_root },
+	{ "getroot",    cmd_get_root },
+	{ "listroot",   cmd_list_root },
+	{ "ls",         cmd_ls },
+	{ "mkdir",      cmd_mkdir },
+	{ "setroot",    cmd_set_root },
 };
 
 void
@@ -212,7 +212,7 @@ shell_cleanup(void) {
 }
 
 int
-cmd_add_dir(char *argline) {
+cmd_mkdir(char *argline) {
 	if (!*argline)
 		return E_INVALID_SYNTAX;
 
@@ -222,7 +222,7 @@ cmd_add_dir(char *argline) {
 	if (_current == NULL)
 		return E_NO_DIR;
 
-	return node_add_child(_current, node_create(argline, N_FILE));
+	return node_add_child(_current, node_create(argline, N_DIRECTORY));
 }
 
 int

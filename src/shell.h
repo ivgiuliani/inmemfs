@@ -14,10 +14,10 @@ void shell_cleanup(void);
 char **shell_completion(const char *, int, int);
 char *shell_command_generator(const char *, int);
 
-int cmd_add_dir(char *);
 int cmd_create_root(char *);
 int cmd_delete_root(char *);
 int cmd_list_root(char *);
+int cmd_mkdir(char *);
 int cmd_get_root(char *);
 int cmd_ls(char *);
 int cmd_set_root(char *);
