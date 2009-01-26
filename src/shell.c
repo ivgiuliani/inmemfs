@@ -36,6 +36,7 @@ void
 shell(void) {
 	unsigned int exit = 0;
 	char *line;
+	int ret;
 
 	/* set up completion */
 	rl_attempted_completion_function = shell_completion;
@@ -51,7 +52,29 @@ shell(void) {
 		} else {
 			if (*line)
 				add_history(line);
-			shell_parse_line(line);
+
+			ret = shell_parse_line(line);
+			switch(ret) {
+				case E_CMD_NOT_FOUND:
+					printf("Command not found\n");
+					break;
+				case E_FILE_CHILD:
+					printf("Can't add a child to a FILE node\n");
+					break;
+				case E_INVALID_SYNTAX:
+					printf("Invalid syntax\n");
+					break;
+				case E_CANNOT_PROCEED:
+					printf("Hit resource limits\n");
+					break;
+				case E_OUT_OF_BOUNDS:
+					printf("Invalid range (out of bounds)\n");
+					break;
+				case E_NO_ROOT:
+					printf("No root node selected\n");
+					break;
+				}
+
 		}
 
 		if (line)
@@ -110,14 +133,15 @@ shell_command_generator (const char *text, int state) {
 	return ((char *)NULL);
 }
 
-
-void
+int
 shell_parse_line(char *line) {
 	unsigned int i = 0, j = 0;
 	char *cmd = (char *)NULL;
 	char *tmp;
 	int (*call)(char *);
 	int ret;
+
+	ret = EXIT_SUCCESS;
 
 	/* skip white spaces */
 	while (line[i] == ' ')
@@ -134,7 +158,7 @@ shell_parse_line(char *line) {
 	call = shell_binsearch_cmd(cmd);
 
 	if (!call) {
-		printf("Command not found\n");
+		ret = E_CMD_NOT_FOUND;
 	} else {
 		while (line[i] == ' ')
 			i++;
@@ -146,28 +170,12 @@ shell_parse_line(char *line) {
 		ret = call(tmp);
 		if (tmp)
 			free(tmp);
-
-		switch(ret) {
-			case E_FILE_CHILD:
-				printf("Can't add a child to a FILE node\n");
-				break;
-			case E_INVALID_SYNTAX:
-				printf("Invalid syntax\n");
-				break;
-			case E_CANNOT_PROCEED:
-				printf("Hit resource limits\n");
-				break;
-			case E_OUT_OF_BOUNDS:
-				printf("Invalid range (out of bounds)\n");
-				break;
-			case E_NO_ROOT:
-				printf("No root node selected\n");
-				break;
-		}
 	}
 
 	if (cmd)
 		free(cmd);
+
+	return ret;
 }
 
 void *
@@ -243,7 +251,7 @@ cmd_ls(char *argline) {
 		}
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int
@@ -266,7 +274,7 @@ cmd_create_root(char *argline) {
 
 	_nodenum++;
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int
@@ -284,7 +292,7 @@ cmd_list_root(char *argline) {
 		}
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int
@@ -325,7 +333,7 @@ cmd_delete_root(char *argline) {
 	node_delete(deletion->node);
 	free(deletion);
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int
@@ -343,7 +351,7 @@ cmd_set_root(char *argline) {
 
 	_set_current_root(root, rootnum);
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int
@@ -355,7 +363,7 @@ cmd_get_root(char *argline) {
 		printf("No current root node set\n");
 	else printf("%2d: %s\n", _current_root_num, _current_root->node->name);
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 struct node_list *

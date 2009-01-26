@@ -9,7 +9,7 @@
 void shell(void);
 void shell_hello(void);
 void *shell_binsearch_cmd(char *);
-void shell_parse_line(char *);
+int shell_parse_line(char *);
 void shell_cleanup(void);
 char **shell_completion(const char *, int, int);
 char *shell_command_generator(const char *, int);

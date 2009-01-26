@@ -8,5 +8,6 @@
 #define E_OUT_OF_BOUNDS				-5	/* invalid range */
 #define E_NO_ROOT							-6	/* no root node selected */
 #define E_NO_DIR							-7	/* no directory node selected */
+#define E_CMD_NOT_FOUND				-8	/* command not found */
 
 #endif /* _ERRORS_H */
