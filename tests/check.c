@@ -139,18 +139,21 @@ END_TEST
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
-	TCase *tc_core = tcase_create("Tree tests");
 
-	suite_add_tcase(s, tc_core);
-	tcase_add_test(tc_core, test_node_creation);
-	tcase_add_test(tc_core, test_node_child_addition);
-	tcase_add_test(tc_core, test_node_list_creation);
-	tcase_add_test(tc_core, test_node_list_add_siblings);
+	TCase *tc_tree = tcase_create("Tree tests");
+	TCase *tc_shell = tcase_create("Shell tests");
 
-	tcase_add_test(tc_core, test_shell_invalid_command);
-	tcase_add_test(tc_core, test_shell_invalid_syntax);
-	tcase_add_test(tc_core, test_shell_root_limits);
-	tcase_add_test(tc_core, test_shell_no_root_selected);
+	suite_add_tcase(s, tc_tree);
+	tcase_add_test(tc_tree, test_node_creation);
+	tcase_add_test(tc_tree, test_node_child_addition);
+	tcase_add_test(tc_tree, test_node_list_creation);
+	tcase_add_test(tc_tree, test_node_list_add_siblings);
+
+	suite_add_tcase(s, tc_shell);
+	tcase_add_test(tc_shell, test_shell_invalid_command);
+	tcase_add_test(tc_shell, test_shell_invalid_syntax);
+	tcase_add_test(tc_shell, test_shell_root_limits);
+	tcase_add_test(tc_shell, test_shell_no_root_selected);
 
 	return s;
 }
