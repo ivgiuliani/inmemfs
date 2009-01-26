@@ -50,9 +50,7 @@ shell(void) {
 			printf("\n");
 			exit = 1;
 		} else {
-			if (*line)
-				add_history(line);
-			else {
+			if (!*line) {
 				if (line)
 					free(line);
 				continue;
