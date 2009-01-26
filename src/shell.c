@@ -52,6 +52,7 @@ shell(void) {
 		} else {
 			if (*line)
 				add_history(line);
+			else continue;
 
 			ret = shell_parse_line(line);
 			switch(ret) {
