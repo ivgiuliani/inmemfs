@@ -31,7 +31,7 @@ node_set_name(struct node *node, char *name) {
 		return E_CONSTRAINT_VIOLATED;
 
 	strcpy(node->name, name);
-	return 1;
+	return 0;
 }
 
 void
@@ -54,6 +54,7 @@ node_delete(struct node *n) {
 	}
 
 	free(n);
+	n = NULL;
 }
 
 int
@@ -85,7 +86,7 @@ node_add_child(struct node *father, struct node *children) {
 	}
 	father->children_no += 1;
 
-	return 1;
+	return 0;
 }
 
 struct node_list *

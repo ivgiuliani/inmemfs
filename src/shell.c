@@ -243,7 +243,7 @@ cmd_ls(char *argline) {
 		}
 	}
 
-	return 1;
+	return 0;
 }
 
 int
@@ -266,7 +266,7 @@ cmd_create_root(char *argline) {
 
 	_nodenum++;
 
-	return 1;
+	return 0;
 }
 
 int
@@ -284,7 +284,7 @@ cmd_list_root(char *argline) {
 		}
 	}
 
-	return 1;
+	return 0;
 }
 
 int
@@ -325,7 +325,7 @@ cmd_delete_root(char *argline) {
 	node_delete(deletion->node);
 	free(deletion);
 
-	return 1;
+	return 0;
 }
 
 int
@@ -343,7 +343,7 @@ cmd_set_root(char *argline) {
 
 	_set_current_root(root, rootnum);
 
-	return 1;
+	return 0;
 }
 
 int
@@ -355,7 +355,7 @@ cmd_get_root(char *argline) {
 		printf("No current root node set\n");
 	else printf("%2d: %s\n", _current_root_num, _current_root->node->name);
 
-	return 1;
+	return 0;
 }
 
 struct node_list *
