@@ -6,7 +6,7 @@
 #include "../src/shell.h"
 #include "../src/node.h"
 
-START_TEST (test_node_creation)
+START_TEST (node_creation)
 {
 	struct node *node;
 
@@ -26,7 +26,7 @@ START_TEST (test_node_creation)
 }
 END_TEST
 
-START_TEST (test_node_child_addition)
+START_TEST (node_child_addition)
 {
 	struct node *father, *children1, *children2;
 
@@ -47,7 +47,7 @@ START_TEST (test_node_child_addition)
 }
 END_TEST
 
-START_TEST (test_node_list_creation)
+START_TEST (node_list_creation)
 {
 	struct node_list *nl = NULL;
 
@@ -58,7 +58,7 @@ START_TEST (test_node_list_creation)
 }
 END_TEST
 
-START_TEST (test_node_list_add_siblings)
+START_TEST (node_list_add_siblings)
 {
 	struct node_list *nl, *tmpnl;
 	struct node *n1, *n2, *n3;
@@ -88,7 +88,7 @@ START_TEST (test_node_list_add_siblings)
 }
 END_TEST
 
-START_TEST (test_shell_invalid_command)
+START_TEST (shell_invalid_command)
 {
 	int ret = shell_parse_line("Invalid command");
 	fail_unless (ret == E_CMD_NOT_FOUND,
@@ -96,7 +96,7 @@ START_TEST (test_shell_invalid_command)
 }
 END_TEST
 
-START_TEST (test_shell_invalid_syntax)
+START_TEST (shell_invalid_syntax)
 {
 	int ret;
 
@@ -110,7 +110,7 @@ START_TEST (test_shell_invalid_syntax)
 }
 END_TEST
 
-START_TEST (test_shell_root_limits)
+START_TEST (shell_root_limits)
 {
 	int i, ret;
 
@@ -128,7 +128,7 @@ START_TEST (test_shell_root_limits)
 }
 END_TEST
 
-START_TEST (test_shell_no_root_selected)
+START_TEST (shell_no_root_selected)
 {
 	int ret = shell_parse_line("mkdir testdir");
 	fail_unless(ret == E_NO_ROOT,
@@ -144,16 +144,16 @@ inmemfs_suite(void) {
 	TCase *tc_shell = tcase_create("Shell tests");
 
 	suite_add_tcase(s, tc_tree);
-	tcase_add_test(tc_tree, test_node_creation);
-	tcase_add_test(tc_tree, test_node_child_addition);
-	tcase_add_test(tc_tree, test_node_list_creation);
-	tcase_add_test(tc_tree, test_node_list_add_siblings);
+	tcase_add_test(tc_tree, node_creation);
+	tcase_add_test(tc_tree, node_child_addition);
+	tcase_add_test(tc_tree, node_list_creation);
+	tcase_add_test(tc_tree, node_list_add_siblings);
 
 	suite_add_tcase(s, tc_shell);
-	tcase_add_test(tc_shell, test_shell_invalid_command);
-	tcase_add_test(tc_shell, test_shell_invalid_syntax);
-	tcase_add_test(tc_shell, test_shell_root_limits);
-	tcase_add_test(tc_shell, test_shell_no_root_selected);
+	tcase_add_test(tc_shell, shell_invalid_command);
+	tcase_add_test(tc_shell, shell_invalid_syntax);
+	tcase_add_test(tc_shell, shell_root_limits);
+	tcase_add_test(tc_shell, shell_no_root_selected);
 
 	return s;
 }
