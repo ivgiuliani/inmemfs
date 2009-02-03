@@ -57,6 +57,32 @@ node_delete(struct node *n) {
 	n = NULL;
 }
 
+void
+node_delete_child(struct node *father, struct node *children) {
+	struct node_list *nl = father->childrens, *delnl;
+	struct node_list *prev = NULL;
+
+	while (nl != NULL) {
+		if (nl->node == children) {
+			if (prev != NULL) {
+				/* we're in the middle or at the end of the linked list */
+				prev->next = nl->next;
+			} else {
+				/* we're at the first item of the linked list */
+				father->childrens = nl->next;
+			}
+
+			delnl = nl;
+			break;
+		}
+		prev = nl;
+		nl = nl->next;
+	}
+
+	node_delete(children);
+	free(delnl);
+}
+
 int
 node_add_child(struct node *father, struct node *children) {
 	struct node_list *tmp, *nl, *tmpnl;
@@ -87,6 +113,37 @@ node_add_child(struct node *father, struct node *children) {
 	father->children_no += 1;
 
 	return 0;
+}
+
+unsigned int
+node_children_num(struct node *node) {
+	unsigned int num = 0;
+	struct node_list *nl = node->childrens;
+
+	while (nl != NULL) {
+		num++;
+		nl = nl->next;
+	}
+
+	return num;
+}
+
+struct node *
+node_find_children(struct node *father, char *name) {
+	struct node *node = NULL;
+	struct node_list *tmpnl;
+
+	tmpnl = father->childrens;
+	while (tmpnl != NULL) {
+		if (!strcmp(tmpnl->node->name, name)) {
+			node = tmpnl->node;
+			break;
+		}
+
+		tmpnl = tmpnl->next;
+	}
+
+	return node;
 }
 
 struct node_list *
@@ -131,3 +188,4 @@ node_list_add_sibling(struct node_list *list, struct node *node) {
 
 	return node;
 }
+

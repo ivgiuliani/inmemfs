@@ -22,7 +22,10 @@ struct node {
 struct node *node_create(char *, enum node_type);
 int node_set_name(struct node *, char *);
 void node_delete(struct node *);
+void node_delete_child(struct node *, struct node *);
 int node_add_child(struct node *, struct node *);
+unsigned int node_children_num(struct node *);
+struct node *node_find_children(struct node *, char *);
 struct node_list *node_get_nth_children_nl(struct node *, int);
 struct node *node_get_nth_children(struct node *, int);
 unsigned int node_get_children_no(struct node *);

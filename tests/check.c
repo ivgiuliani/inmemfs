@@ -47,6 +47,53 @@ START_TEST (node_child_addition)
 }
 END_TEST
 
+START_TEST (node_count_childrens)
+{
+	struct node *father = node_create("Test root node", N_DIRECTORY);
+	struct node *children1 = node_create("Children 1", N_FILE);
+	struct node *children2 = node_create("Children 2", N_FILE);
+	struct node *children3 = node_create("Children 3", N_FILE);
+
+	fail_unless (node_children_num(father) == 0);
+
+	node_add_child(father, children1);
+	fail_unless (node_children_num(father) == 1);
+
+	node_add_child(father, children2);
+	fail_unless (node_children_num(father) == 2);
+
+	node_add_child(father, children3);
+	fail_unless (node_children_num(father) == 3);
+
+	node_delete(father);
+}
+END_TEST
+
+START_TEST (node_delete_children)
+{
+	struct node *father = node_create("Test root node", N_DIRECTORY);
+	struct node *children1 = node_create("Children 1", N_FILE);
+	struct node *children2 = node_create("Children 2", N_FILE);
+	struct node *children3 = node_create("Children 3", N_FILE);
+
+	node_add_child(father, children1);
+	node_add_child(father, children2);
+	node_add_child(father, children3);
+
+	/* delete in the middle */
+	node_delete_child(father, children2);
+	fail_unless (node_children_num(father) == 2);
+
+	/* delete the first item */
+	node_delete_child(father, children1);
+	fail_unless (node_children_num(father) == 1);
+
+	/* and a unique element */
+	node_delete_child(father, children3);
+	fail_unless (node_children_num(father) == 0);
+}
+END_TEST
+
 START_TEST (node_list_creation)
 {
 	struct node_list *nl = NULL;
@@ -136,6 +183,28 @@ START_TEST (shell_no_root_selected)
 }
 END_TEST
 
+START_TEST (shell_delete_dir)
+{
+	int ret;
+
+	shell_parse_line("createroot testroot");
+	shell_parse_line("setroot 1");
+	shell_parse_line("mkdir test1");
+	shell_parse_line("mkdir test2");
+	shell_parse_line("mkdir test3");
+
+	ret = shell_parse_line("rmdir test1");
+	fail_unless(ret == EXIT_SUCCESS);
+
+	ret = shell_parse_line("rmdir test2");
+	fail_unless(ret == EXIT_SUCCESS);
+
+	ret = shell_parse_line("rmdir test3");
+	fail_unless(ret == EXIT_SUCCESS);
+
+}
+END_TEST
+
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
@@ -148,12 +217,15 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_tree, node_child_addition);
 	tcase_add_test(tc_tree, node_list_creation);
 	tcase_add_test(tc_tree, node_list_add_siblings);
+	tcase_add_test(tc_tree, node_count_childrens);
+	tcase_add_test(tc_tree, node_delete_children);
 
 	suite_add_tcase(s, tc_shell);
 	tcase_add_test(tc_shell, shell_invalid_command);
 	tcase_add_test(tc_shell, shell_invalid_syntax);
 	tcase_add_test(tc_shell, shell_root_limits);
 	tcase_add_test(tc_shell, shell_no_root_selected);
+	tcase_add_test(tc_shell, shell_delete_dir);
 
 	return s;
 }

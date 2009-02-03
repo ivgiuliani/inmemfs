@@ -29,6 +29,7 @@ struct _commands {
 	{ "listroot",   cmd_list_root },
 	{ "ls",         cmd_ls },
 	{ "mkdir",      cmd_mkdir },
+	{ "rmdir",      cmd_rmdir },
 	{ "setroot",    cmd_set_root },
 };
 
@@ -75,6 +76,13 @@ shell(void) {
 					break;
 				case E_NO_ROOT:
 					printf("No root node selected\n");
+					break;
+				case E_DIR_NOT_FOUND:
+				case E_FILE_NOT_FOUND:
+					printf("File or directory not found\n");
+					break;
+				case E_INVALID_TYPE:
+					printf("Invalid node type\n");
 					break;
 				}
 
@@ -234,6 +242,29 @@ cmd_mkdir(char *argline) {
 		return E_NO_DIR;
 
 	return node_add_child(_current, node_create(argline, N_DIRECTORY));
+}
+
+int
+cmd_rmdir(char *argline) {
+	struct node *node;
+
+	if (!*argline)
+		return E_INVALID_SYNTAX;
+
+	if (_current_root == NULL)
+		return E_NO_ROOT;
+
+	if (_current == NULL)
+		return E_NO_DIR;
+
+	node = node_find_children(_current, argline);
+	if (node == NULL)
+		return E_DIR_NOT_FOUND;
+	if (node->type != N_DIRECTORY)
+		return E_INVALID_TYPE;
+
+	node_delete_child(_current, node);
+	return EXIT_SUCCESS;
 }
 
 int

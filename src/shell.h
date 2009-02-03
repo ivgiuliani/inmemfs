@@ -3,7 +3,7 @@
 
 #include "node.h"
 
-#define SHELL_N_FUNCS 7
+#define SHELL_N_FUNCS 8
 #define MAX_CMD_LEN 20
 
 void shell(void);
@@ -18,6 +18,7 @@ int cmd_create_root(char *);
 int cmd_delete_root(char *);
 int cmd_list_root(char *);
 int cmd_mkdir(char *);
+int cmd_rmdir(char *);
 int cmd_get_root(char *);
 int cmd_ls(char *);
 int cmd_set_root(char *);
