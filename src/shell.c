@@ -59,8 +59,10 @@ shell(void) {
 			shell_err_matcher(shell_parse_line(line));
 		}
 
-		if (line)
+		if (line) {
+			add_history(line);
 			free(line);
+		}
 	} while (!exit);
 
 	shell_cleanup();
