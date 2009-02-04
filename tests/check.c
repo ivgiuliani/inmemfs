@@ -47,6 +47,41 @@ START_TEST (node_child_addition)
 }
 END_TEST
 
+START_TEST (node_add_child_alphabetical_ordering)
+{
+	struct node *father = node_create("Father", N_DIRECTORY);
+	struct node *alpha, *beta, *gamma;
+
+	alpha = node_create("alpha", N_FILE);
+	beta = node_create("beta", N_FILE);
+	gamma = node_create("gamma", N_FILE);
+
+	node_add_child(father, beta);
+	node_add_child(father, alpha);
+	node_add_child(father, gamma);
+
+	fail_if (strcmp(node_get_nth_children(father, 0)->name, "alpha") != 0);
+	fail_if (strcmp(node_get_nth_children(father, 1)->name, "beta") != 0);
+	fail_if (strcmp(node_get_nth_children(father, 2)->name, "gamma") != 0);
+
+	node_delete(father);
+}
+END_TEST
+
+START_TEST (node_add_child_duplicate_name)
+{
+	struct node *father = node_create("Father", N_DIRECTORY);
+	struct node *children1 = node_create("children", N_FILE);
+	struct node *children2 = node_create("children", N_FILE);
+
+	node_add_child(father, children1);
+	fail_unless (node_add_child(father, children2) == E_NAME_EXISTS);
+
+	node_delete(children2);
+	node_delete(father);
+}
+END_TEST
+
 START_TEST (node_count_childrens)
 {
 	struct node *father = node_create("Test root node", N_DIRECTORY);
@@ -205,6 +240,19 @@ START_TEST (shell_delete_dir)
 }
 END_TEST
 
+START_TEST (shell_add_duplicate_name)
+{
+	int ret;
+
+	shell_parse_line("createroot testroot");
+	shell_parse_line("setroot 1");
+	shell_parse_line("mkdir test");
+	ret = shell_parse_line("mkdir test");
+
+	fail_unless (ret == E_NAME_EXISTS);
+}
+END_TEST
+
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
@@ -215,6 +263,8 @@ inmemfs_suite(void) {
 	suite_add_tcase(s, tc_tree);
 	tcase_add_test(tc_tree, node_creation);
 	tcase_add_test(tc_tree, node_child_addition);
+	tcase_add_test(tc_tree, node_add_child_alphabetical_ordering);
+	tcase_add_test(tc_tree, node_add_child_duplicate_name);
 	tcase_add_test(tc_tree, node_list_creation);
 	tcase_add_test(tc_tree, node_list_add_siblings);
 	tcase_add_test(tc_tree, node_count_childrens);

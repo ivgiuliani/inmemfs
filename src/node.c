@@ -85,30 +85,59 @@ node_delete_child(struct node *father, struct node *children) {
 
 int
 node_add_child(struct node *father, struct node *children) {
-	struct node_list *tmp, *nl, *tmpnl;
+	struct node_list *tmp, *nl, *tmpnl, *prev;
 	unsigned int children_no = node_get_children_no(father);
+	unsigned int inserted;
+	short int name_comparison;
 
 	if (father->type == N_FILE) {
 		return E_FILE_CHILD;
 	}
 
 	if (children_no == 0) {
-		/* initalizes the children list (we have deferred its initalization) */
+		/* this is the first child, so initalizes the children
+		 * list (we have deferred its initalization) */
 		father->childrens = node_list_create();
 
 		father->childrens->node = children;
 		father->childrens->prev = NULL;
 		father->childrens->next = NULL;
 	} else {
-		tmp = node_get_nth_children_nl(father, children_no);
+		/* there are childrens already, so insert this node in the
+		 * proper place in alphabetical order
+		 */
+
 		nl = node_list_create();
 		nl->node = children;
 
 		tmpnl = father->childrens;
-		while (tmpnl->next != NULL)
+		prev = NULL;
+
+		inserted = 0;
+		while (tmpnl != NULL) {
+			/* insert the node in the proper alphabetical place */
+			name_comparison = strcmp(children->name, tmpnl->node->name);
+			if (name_comparison < 0) {
+				if (prev == NULL)
+					father->childrens = nl;
+				else prev->next = nl;
+
+				nl->next = tmpnl;
+				inserted = 1;
+				break;
+			} else if (name_comparison == 0) {
+				/* a node with the same name already exists, exit
+				 * with a proper error code
+				 */
+				return E_NAME_EXISTS;
+			}
+
+			prev = tmpnl;
 			tmpnl = tmpnl->next;
-		tmpnl->next = nl;
-		nl->prev = tmpnl;
+		}
+
+		if (!inserted)
+			node_get_nth_children_nl(father, children_no - 1)->next = nl;
 	}
 	father->children_no += 1;
 
@@ -159,6 +188,7 @@ node_get_nth_children_nl(struct node *n, int no) {
 
 struct node *
 node_get_nth_children(struct node *n, int no) {
+	/* Returns the Ith children (starts from 0) */
 	return node_get_nth_children_nl(n, no)->node;
 }
 

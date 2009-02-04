@@ -96,6 +96,9 @@ shell_err_matcher(int return_code) {
 		case E_INVALID_TYPE:
 			printf("Invalid node type\n");
 			break;
+		case E_NAME_EXISTS:
+			printf("A file or a directory with this name already exists\n");
+			break;
 		}
 }
 
