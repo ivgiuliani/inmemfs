@@ -253,6 +253,22 @@ START_TEST (shell_add_duplicate_name)
 }
 END_TEST
 
+START_TEST (shell_change_dir)
+{
+	int ret;
+
+	shell_parse_line("createroot testroot");
+	shell_parse_line("setroot 1");
+	shell_parse_line("mkdir test");
+
+	ret = shell_parse_line("cd unknown");
+	fail_unless (ret == E_DIR_NOT_FOUND);
+
+	ret = shell_parse_line("cd test");
+	fail_unless (ret == EXIT_SUCCESS);
+}
+END_TEST
+
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
@@ -276,6 +292,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_shell, shell_root_limits);
 	tcase_add_test(tc_shell, shell_no_root_selected);
 	tcase_add_test(tc_shell, shell_delete_dir);
+	tcase_add_test(tc_shell, shell_change_dir);
 
 	return s;
 }

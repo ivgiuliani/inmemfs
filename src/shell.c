@@ -23,6 +23,7 @@ struct _commands {
 	char *command;
 	void *func;
 } commands[SHELL_N_FUNCS] = {
+	{ "cd",         cmd_cd },
 	{ "createroot", cmd_create_root },
 	{ "deleteroot", cmd_delete_root },
 	{ "getroot",    cmd_get_root },
@@ -291,6 +292,34 @@ cmd_ls(char *argline) {
 			nl = nl->next;
 		}
 	}
+
+	return EXIT_SUCCESS;
+}
+
+int
+cmd_cd(char *argline) {
+	struct node *node;
+
+	if (_current_root == NULL)
+		return E_NO_ROOT;
+
+	if (_current == NULL)
+		return E_NO_DIR;
+
+	if (!strcmp(argline, NODE_SELF))
+		return EXIT_SUCCESS;
+
+	if (!*argline)
+		return E_INVALID_SYNTAX;
+
+	node = node_find_children(_current, argline);
+	if (node == NULL)
+		return E_DIR_NOT_FOUND;
+
+	if (node->type == N_FILE)
+		return E_INVALID_TYPE;
+
+	_current = node;
 
 	return EXIT_SUCCESS;
 }
