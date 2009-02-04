@@ -37,7 +37,6 @@ void
 shell(void) {
 	unsigned int exit = 0;
 	char *line;
-	int ret;
 
 	/* set up completion */
 	rl_attempted_completion_function = shell_completion;
@@ -57,35 +56,7 @@ shell(void) {
 				continue;
 			}
 
-			ret = shell_parse_line(line);
-			switch(ret) {
-				case E_CMD_NOT_FOUND:
-					printf("Command not found\n");
-					break;
-				case E_FILE_CHILD:
-					printf("Can't add a child to a FILE node\n");
-					break;
-				case E_INVALID_SYNTAX:
-					printf("Invalid syntax\n");
-					break;
-				case E_CANNOT_PROCEED:
-					printf("Hit resource limits\n");
-					break;
-				case E_OUT_OF_BOUNDS:
-					printf("Invalid range (out of bounds)\n");
-					break;
-				case E_NO_ROOT:
-					printf("No root node selected\n");
-					break;
-				case E_DIR_NOT_FOUND:
-				case E_FILE_NOT_FOUND:
-					printf("File or directory not found\n");
-					break;
-				case E_INVALID_TYPE:
-					printf("Invalid node type\n");
-					break;
-				}
-
+			shell_err_matcher(shell_parse_line(line));
 		}
 
 		if (line)
@@ -93,6 +64,37 @@ shell(void) {
 	} while (!exit);
 
 	shell_cleanup();
+}
+
+void
+shell_err_matcher(int return_code) {
+	switch(return_code) {
+		case E_CMD_NOT_FOUND:
+			printf("Command not found\n");
+			break;
+		case E_FILE_CHILD:
+			printf("Can't add a child to a FILE node\n");
+			break;
+		case E_INVALID_SYNTAX:
+			printf("Invalid syntax\n");
+			break;
+		case E_CANNOT_PROCEED:
+			printf("Hit resource limits\n");
+			break;
+		case E_OUT_OF_BOUNDS:
+			printf("Invalid range (out of bounds)\n");
+			break;
+		case E_NO_ROOT:
+			printf("No root node selected\n");
+			break;
+		case E_DIR_NOT_FOUND:
+		case E_FILE_NOT_FOUND:
+			printf("File or directory not found\n");
+			break;
+		case E_INVALID_TYPE:
+			printf("Invalid node type\n");
+			break;
+		}
 }
 
 void

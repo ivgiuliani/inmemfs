@@ -7,6 +7,7 @@
 #define MAX_CMD_LEN 20
 
 void shell(void);
+void shell_err_matcher(int);
 void shell_hello(void);
 void *shell_binsearch_cmd(char *);
 int shell_parse_line(char *);
