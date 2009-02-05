@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "common.h"
 #include "kalloc.h"
@@ -69,3 +70,48 @@ kfree(Chunk *chunk) {
 	}
 }
 
+
+/*
+ * Read the specified size starting from the first chunk 'chunk'.
+ * It returns the effective number of read bytes (i.e. if 'size' is greater
+ * than the actual allocated memory, the whole allocated memory).
+ */
+unsigned int
+kread(Chunk *c, unsigned int size, void *buffer) {
+	unsigned int read_bytes = 0, copy_size;
+	Chunk *chunk = c;
+
+	while ((read_bytes < size) && (chunk != NULL)) {
+		copy_size = (size <= chunk->size) ? size : chunk->size;
+
+		memcpy(buffer + read_bytes, chunk->memory, copy_size);
+		size -= copy_size;
+		read_bytes += copy_size;
+		chunk = chunk->next;
+	}
+
+	return read_bytes;
+}
+
+/*
+ * Writes the specified 'size' number of bytes in the allocated chunk list
+ * starting from 'chunk'
+ * Returns the actual number of written bytes (i.e. if 'size' is greater
+ * than the actual allocated memory, the whole allocated memory).
+ */
+unsigned int
+kwrite(Chunk *c, void *data, unsigned int size) {
+	Chunk *chunk = c;
+	unsigned int written_bytes = 0, copy_size;
+
+	while ((written_bytes < size) && (chunk != NULL)) {
+		copy_size = (size <= chunk->size) ? size : chunk->size;
+
+		memcpy(chunk->memory, data + written_bytes, copy_size);
+		size -= copy_size;
+		written_bytes += copy_size;
+		chunk = chunk->next;
+	}
+
+	return written_bytes;
+}
