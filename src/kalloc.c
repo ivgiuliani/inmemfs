@@ -65,6 +65,7 @@ kfree(Chunk *chunk) {
 	Chunk *next = chunk;
 
 	while (next != NULL) {
+		_mem_count -= chunk->size;
 		next = chunk->next;
 		free(chunk);
 	}
