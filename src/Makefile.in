@@ -44,7 +44,8 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_inmemfs_OBJECTS = main.$(OBJEXT) shell.$(OBJEXT) node.$(OBJEXT)
+am_inmemfs_OBJECTS = main.$(OBJEXT) shell.$(OBJEXT) node.$(OBJEXT) \
+	kalloc.$(OBJEXT)
 inmemfs_OBJECTS = $(am_inmemfs_OBJECTS)
 inmemfs_DEPENDENCIES =
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -146,9 +147,11 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-inmemfs_SOURCES = main.c \
-									shell.c \
-									node.c
+inmemfs_SOURCES = \
+									main.c   \
+									shell.c  \
+									node.c   \
+									kalloc.c
 
 inmemfs_LDADD = $(READLINELIB)
 all: config.h
@@ -235,6 +238,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kalloc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/node.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shell.Po@am__quote@
