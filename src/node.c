@@ -13,6 +13,7 @@ node_create(char *name, enum node_type type) {
 	n = (struct node *)malloc(sizeof(struct node));
 	n->type = type;
 	n->children_no = 0;
+	n->father = NULL;
 
 	/* defer initalizations of childrens until we're actually adding
 	 * a new children
@@ -32,6 +33,12 @@ node_set_name(struct node *node, char *name) {
 
 	strcpy(node->name, name);
 	return 0;
+}
+
+/* Set a node's father */
+void
+node_set_father(struct node *node, const struct node *father) {
+	node->father = father;
 }
 
 void
@@ -140,6 +147,7 @@ node_add_child(struct node *father, struct node *children) {
 			node_get_nth_children_nl(father, children_no - 1)->next = nl;
 	}
 	father->children_no += 1;
+	node_set_father(children, father);
 
 	return 0;
 }
@@ -173,6 +181,12 @@ node_find_children(struct node *father, char *name) {
 	}
 
 	return node;
+}
+
+/* Returns a node's father or NULL if it's a root node */
+struct node *
+node_get_father(const struct node *children) {
+	return children->father;
 }
 
 struct node_list *

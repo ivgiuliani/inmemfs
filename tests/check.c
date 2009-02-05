@@ -129,6 +129,19 @@ START_TEST (node_delete_children)
 }
 END_TEST
 
+START_TEST (node_can_get_father)
+{
+	struct node *father = node_create("Father", N_DIRECTORY);
+	struct node *children = node_create("Children", N_FILE);
+
+	node_add_child(father, children);
+
+	fail_unless (node_get_father(children) == father);
+
+	node_delete(father);
+}
+END_TEST
+
 START_TEST (node_list_creation)
 {
 	struct node_list *nl = NULL;
@@ -285,6 +298,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_tree, node_list_add_siblings);
 	tcase_add_test(tc_tree, node_count_childrens);
 	tcase_add_test(tc_tree, node_delete_children);
+	tcase_add_test(tc_tree, node_can_get_father);
 
 	suite_add_tcase(s, tc_shell);
 	tcase_add_test(tc_shell, shell_invalid_command);
