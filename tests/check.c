@@ -279,6 +279,19 @@ START_TEST (shell_change_dir)
 
 	ret = shell_parse_line("cd test");
 	fail_unless (ret == EXIT_SUCCESS);
+
+	shell_parse_line("mkdir subtest");
+	ret = shell_parse_line("cd subtest");
+	fail_unless (ret == EXIT_SUCCESS);
+
+	ret = shell_parse_line("cd ..");
+	fail_unless (ret == EXIT_SUCCESS);
+
+	ret = shell_parse_line("cd ..");
+	fail_unless (ret == EXIT_SUCCESS);
+
+	ret = shell_parse_line("cd ..");
+	fail_unless (ret == E_DIR_NOT_FOUND);
 }
 END_TEST
 

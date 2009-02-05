@@ -197,6 +197,9 @@ shell_parse_line(char *line) {
 	return ret;
 }
 
+/*
+ * Search for an existing command by using binary search
+ */
 void *
 shell_binsearch_cmd(char *cmd) {
 	int low, high, mid, cond = 0;
@@ -312,7 +315,12 @@ cmd_cd(char *argline) {
 	if (!*argline)
 		return E_INVALID_SYNTAX;
 
-	node = node_find_children(_current, argline);
+	if (!strcmp(argline, NODE_PARENT)) {
+		node = node_get_father(_current);
+	} else {
+		node = node_find_children(_current, argline);
+	}
+
 	if (node == NULL)
 		return E_DIR_NOT_FOUND;
 
