@@ -1,0 +1,2 @@
+inmemfs is a simple in memory filesystem specifically aimed at caching large
+documents in memory. It is released under the GPLv2 license.
