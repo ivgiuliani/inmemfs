@@ -37,7 +37,7 @@ node_set_name(struct node *node, char *name) {
 
 /* Set a node's father */
 void
-node_set_father(struct node *node, const struct node *father) {
+node_set_father(struct node *node, struct node *father) {
 	node->father = father;
 }
 

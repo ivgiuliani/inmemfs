@@ -22,7 +22,7 @@ struct node {
 
 struct node *node_create(char *, enum node_type);
 int node_set_name(struct node *, char *);
-void node_set_father(struct node *, const struct node *);
+void node_set_father(struct node *, struct node *);
 void node_delete(struct node *);
 void node_delete_child(struct node *, struct node *);
 int node_add_child(struct node *, struct node *);
