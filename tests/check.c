@@ -11,15 +11,15 @@ START_TEST (node_creation)
 {
 	struct node *node;
 
-	node = node_create("File node", N_FILE);
-	fail_if (strcmp(node->name, "File node") != 0,
+	node = node_create("file-node", N_FILE);
+	fail_if (strcmp(node->name, "file-node") != 0,
 			"Node name is not set correctly");
 	fail_if (node->type != N_FILE,
 			"Node type is not set correctly");
 	node_delete(node);
 
-	node = node_create("Directory node", N_DIRECTORY);
-	fail_if (strcmp(node->name, "Directory node") != 0,
+	node = node_create("directory-node", N_DIRECTORY);
+	fail_if (strcmp(node->name, "directory-node") != 0,
 			"Node name is not set correctly");
 	fail_if (node->type != N_DIRECTORY,
 			"Node type is not set correctly");
@@ -31,9 +31,9 @@ START_TEST (node_child_addition)
 {
 	struct node *father, *children1, *children2;
 
-	father = node_create("Test node", N_DIRECTORY);
-	children1 = node_create("Children 1", N_FILE);
-	children2 = node_create("Children 2", N_FILE);
+	father = node_create("Father", N_DIRECTORY);
+	children1 = node_create("Children_1", N_FILE);
+	children2 = node_create("Children_2", N_FILE);
 
 	fail_unless (node_add_child(father, children1) != E_FILE_CHILD,
 			"Can't add a children to a father node");
@@ -85,10 +85,10 @@ END_TEST
 
 START_TEST (node_count_childrens)
 {
-	struct node *father = node_create("Test root node", N_DIRECTORY);
-	struct node *children1 = node_create("Children 1", N_FILE);
-	struct node *children2 = node_create("Children 2", N_FILE);
-	struct node *children3 = node_create("Children 3", N_FILE);
+	struct node *father = node_create("Test-root-node", N_DIRECTORY);
+	struct node *children1 = node_create("Children_1", N_FILE);
+	struct node *children2 = node_create("Children_2", N_FILE);
+	struct node *children3 = node_create("Children_3", N_FILE);
 
 	fail_unless (node_children_num(father) == 0);
 
@@ -107,10 +107,10 @@ END_TEST
 
 START_TEST (node_delete_children)
 {
-	struct node *father = node_create("Test root node", N_DIRECTORY);
-	struct node *children1 = node_create("Children 1", N_FILE);
-	struct node *children2 = node_create("Children 2", N_FILE);
-	struct node *children3 = node_create("Children 3", N_FILE);
+	struct node *father = node_create("Test-root-node", N_DIRECTORY);
+	struct node *children1 = node_create("Children_1", N_FILE);
+	struct node *children2 = node_create("Children_2", N_FILE);
+	struct node *children3 = node_create("Children_3", N_FILE);
 
 	node_add_child(father, children1);
 	node_add_child(father, children2);
@@ -140,6 +140,40 @@ START_TEST (node_can_get_father)
 	fail_unless (node_get_father(children) == father);
 
 	node_delete(father);
+}
+END_TEST
+
+START_TEST (node_check_valid_names)
+{
+	struct node *hyphens = node_create("n-o-d-e", N_FILE);
+	struct node *underscores = node_create("n_o_d_e", N_FILE);
+	struct node *mixedcase = node_create("AaBbZz", N_FILE);
+	struct node *numbers = node_create("1234567890", N_FILE);
+	struct node *mixed = node_create("abc-ABC_123", N_FILE);
+
+	fail_if (hyphens == NULL);
+	fail_if (underscores == NULL);
+	fail_if (mixedcase == NULL);
+	fail_if (numbers == NULL);
+	fail_if (mixed == NULL);
+
+	node_delete(hyphens);
+	node_delete(underscores);
+	node_delete(mixedcase);
+	node_delete(numbers);
+	node_delete(mixed);
+}
+END_TEST
+
+START_TEST (node_check_invalid_names)
+{
+	struct node *spaces = node_create("s p a c e", N_FILE);
+	struct node *apostrophe = node_create("I can't have this", N_FILE);
+	struct node *strange = node_create("/!)!=", N_FILE);
+
+	fail_if (spaces != NULL);
+	fail_if (apostrophe != NULL);
+	fail_if (strange != NULL);
 }
 END_TEST
 
@@ -313,6 +347,8 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_tree, node_count_childrens);
 	tcase_add_test(tc_tree, node_delete_children);
 	tcase_add_test(tc_tree, node_can_get_father);
+	tcase_add_test(tc_tree, node_check_valid_names);
+	tcase_add_test(tc_tree, node_check_invalid_names);
 
 	suite_add_tcase(s, tc_shell);
 	tcase_add_test(tc_shell, shell_invalid_command);

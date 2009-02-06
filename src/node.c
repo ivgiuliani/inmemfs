@@ -28,8 +28,25 @@ node_create(char *name, enum node_type type) {
 
 int
 node_set_name(struct node *node, char *name) {
+	unsigned int i;
+	char c;
+
 	if (strlen(name) > MAX_NAME_LENGTH)
 		return E_CONSTRAINT_VIOLATED;
+
+	for (i = 0; i < strlen(name); i++) {
+		/* A"white list" approach in this case is easier
+		 * to understand (for future reference)
+		 */
+		c = name[i];
+		if ((c >= 'A' && c <= 'Z') ||
+				(c >= 'a' && c <= 'z') ||
+				(c >= '0' && c <= '9') ||
+				(c == '.') ||
+				(c == '-') ||
+				(c == '_')) continue;
+		else return E_INVALID_NAME;
+	}
 
 	strcpy(node->name, name);
 	return 0;

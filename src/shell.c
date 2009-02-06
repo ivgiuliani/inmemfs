@@ -101,6 +101,9 @@ shell_err_matcher(int return_code) {
 		case E_NAME_EXISTS:
 			printf("A file or a directory with this name already exists\n");
 			break;
+		case E_INVALID_NAME:
+			printf("The argument contains invalid characters\n");
+			break;
 		}
 }
 

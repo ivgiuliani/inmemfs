@@ -8,6 +8,8 @@
 
 int
 cmd_mkdir(char *argline) {
+	struct node *n;
+
 	if (!*argline)
 		return E_INVALID_SYNTAX;
 
@@ -17,7 +19,10 @@ cmd_mkdir(char *argline) {
 	if (shell_get_curr_node() == NULL)
 		return E_NO_DIR;
 
-	return node_add_child(shell_get_curr_node(), node_create(argline, N_DIRECTORY));
+	n = node_create(argline, N_DIRECTORY);
+	if (n == NULL) {
+		return E_INVALID_NAME;
+	} else return node_add_child(shell_get_curr_node(), n);
 }
 
 int

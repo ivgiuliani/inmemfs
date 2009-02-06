@@ -13,5 +13,6 @@
 #define E_FILE_NOT_FOUND      -10 /* file not found */
 #define E_INVALID_TYPE        -11 /* operation on an invalid node type */
 #define E_NAME_EXISTS         -12 /* a file or a directory with the same name already exists */
+#define E_INVALID_NAME        -13 /* name contains invalid characters */
 
 #endif /* _ERRORS_H */
