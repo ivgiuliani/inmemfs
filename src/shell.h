@@ -14,6 +14,8 @@ int shell_parse_line(char *);
 void shell_cleanup(void);
 char **shell_completion(const char *, int, int);
 char *shell_command_generator(const char *, int);
+struct node_list *shell_get_root(void);
+void shell_set_root(struct node_list *);
 
 int cmd_cd(char *);
 int cmd_copyto(char *);
@@ -28,6 +30,5 @@ int cmd_set_root(char *);
 
 /* private functions */
 struct node_list *_node_from_num(unsigned int);
-void _set_current_root(struct node_list *);
 
 #endif /* _SHELL_H */

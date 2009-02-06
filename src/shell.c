@@ -241,12 +241,29 @@ shell_cleanup(void) {
 	}
 }
 
+/*
+ * Get the current root node or NULL if none
+ */
+struct node_list *
+shell_get_root() {
+	return _current_root;
+}
+
+/*
+ * Set the current root node
+ */
+void
+shell_set_root(struct node_list *root) {
+	_current_root = root;
+	_current = root->node;
+}
+
 int
 cmd_mkdir(char *argline) {
 	if (!*argline)
 		return E_INVALID_SYNTAX;
 
-	if (_current_root == NULL)
+	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
 	if (_current == NULL)
@@ -262,7 +279,7 @@ cmd_rmdir(char *argline) {
 	if (!*argline)
 		return E_INVALID_SYNTAX;
 
-	if (_current_root == NULL)
+	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
 	if (_current == NULL)
@@ -282,7 +299,7 @@ int
 cmd_ls(char *argline) {
 	struct node_list *nl;
 
-	if (_current_root == NULL)
+	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
 	if (_current == NULL)
@@ -303,7 +320,7 @@ int
 cmd_cd(char *argline) {
 	struct node *node;
 
-	if (_current_root == NULL)
+	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
 	if (_current == NULL)
@@ -336,7 +353,7 @@ int
 cmd_copyto(char *argline) {
 	struct node *node;
 
-	if (_current_root == NULL)
+	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
 	if (_current == NULL)
@@ -428,8 +445,8 @@ cmd_delete_root(char *argline) {
 	}
 	_nodenum--;
 
-	if (_current_root == deletion) {
-		_current_root = NULL;
+	if (shell_get_root() == deletion) {
+		shell_set_root(NULL);
 		_current = NULL;
 	}
 
@@ -452,7 +469,7 @@ cmd_set_root(char *argline) {
 	if (root == NULL)
 		return E_OUT_OF_BOUNDS;
 
-	_set_current_root(root);
+	shell_set_root(root);
 
 	return EXIT_SUCCESS;
 }
@@ -462,9 +479,9 @@ cmd_get_root(char *argline) {
 	if (*argline)
 		return E_INVALID_SYNTAX;
 
-	if (_current_root == NULL)
+	if (shell_get_root() == NULL)
 		printf("No current root node set\n");
-	else printf("%s\n", _current_root->node->name);
+	else printf("%s\n", shell_get_root()->node->name);
 
 	return EXIT_SUCCESS;
 }
@@ -489,8 +506,3 @@ _node_from_num(unsigned int num) {
 	return tmp;
 }
 
-void
-_set_current_root(struct node_list *root) {
-	_current_root = root;
-	_current = root->node;
-}
