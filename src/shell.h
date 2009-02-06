@@ -16,6 +16,8 @@ char **shell_completion(const char *, int, int);
 char *shell_command_generator(const char *, int);
 struct node_list *shell_get_root(void);
 void shell_set_root(struct node_list *);
+struct node *shell_get_curr_node(void);
+void shell_set_curr_node(struct node *);
 
 int cmd_cd(char *);
 int cmd_copyto(char *);

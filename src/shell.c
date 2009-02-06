@@ -233,7 +233,7 @@ shell_cleanup(void) {
 	struct node_list *tmp;
 	tmp = _nodes;
 
-	_current = NULL;
+	shell_set_curr_node(NULL);
 
 	while (tmp != NULL) {
 		node_delete(tmp->node);
@@ -255,7 +255,23 @@ shell_get_root() {
 void
 shell_set_root(struct node_list *root) {
 	_current_root = root;
-	_current = root->node;
+	shell_set_curr_node(root->node);
+}
+
+/*
+ * Get the current node
+ */
+struct node *
+shell_get_curr_node() {
+	return _current;
+}
+
+/*
+ * Set the current node
+ */
+void
+shell_set_curr_node(struct node *node) {
+	_current = node;
 }
 
 int
@@ -266,10 +282,10 @@ cmd_mkdir(char *argline) {
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
-	if (_current == NULL)
+	if (shell_get_curr_node() == NULL)
 		return E_NO_DIR;
 
-	return node_add_child(_current, node_create(argline, N_DIRECTORY));
+	return node_add_child(shell_get_curr_node(), node_create(argline, N_DIRECTORY));
 }
 
 int
@@ -282,16 +298,16 @@ cmd_rmdir(char *argline) {
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
-	if (_current == NULL)
+	if (shell_get_curr_node() == NULL)
 		return E_NO_DIR;
 
-	node = node_find_children(_current, argline);
+	node = node_find_children(shell_get_curr_node(), argline);
 	if (node == NULL)
 		return E_DIR_NOT_FOUND;
 	if (node->type != N_DIRECTORY)
 		return E_INVALID_TYPE;
 
-	node_delete_child(_current, node);
+	node_delete_child(shell_get_curr_node(), node);
 	return EXIT_SUCCESS;
 }
 
@@ -302,11 +318,11 @@ cmd_ls(char *argline) {
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
-	if (_current == NULL)
+	if (shell_get_curr_node() == NULL)
 		return E_NO_DIR;
 
-	if (_current->children_no != 0) {
-		nl = _current->childrens;
+	if (shell_get_curr_node()->children_no != 0) {
+		nl = shell_get_curr_node()->childrens;
 		while (nl != NULL) {
 			printf("%s\n", nl->node->name);
 			nl = nl->next;
@@ -323,7 +339,7 @@ cmd_cd(char *argline) {
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
-	if (_current == NULL)
+	if (shell_get_curr_node() == NULL)
 		return E_NO_DIR;
 
 	if (!strcmp(argline, NODE_SELF))
@@ -333,9 +349,9 @@ cmd_cd(char *argline) {
 		return E_INVALID_SYNTAX;
 
 	if (!strcmp(argline, NODE_PARENT)) {
-		node = node_get_father(_current);
+		node = node_get_father(shell_get_curr_node());
 	} else {
-		node = node_find_children(_current, argline);
+		node = node_find_children(shell_get_curr_node(), argline);
 	}
 
 	if (node == NULL)
@@ -344,7 +360,7 @@ cmd_cd(char *argline) {
 	if (node->type == N_FILE)
 		return E_INVALID_TYPE;
 
-	_current = node;
+	shell_set_curr_node(node);
 
 	return EXIT_SUCCESS;
 }
@@ -356,13 +372,13 @@ cmd_copyto(char *argline) {
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
 
-	if (_current == NULL)
+	if (shell_get_curr_node() == NULL)
 		return E_NO_DIR;
 
 	if (!*argline)
 		return E_INVALID_SYNTAX;
 
-	node = node_find_children(_current, argline);
+	node = node_find_children(shell_get_curr_node(), argline);
 
 	if (node == NULL)
 		return E_DIR_NOT_FOUND;
@@ -447,7 +463,7 @@ cmd_delete_root(char *argline) {
 
 	if (shell_get_root() == deletion) {
 		shell_set_root(NULL);
-		_current = NULL;
+		shell_set_curr_node(NULL);
 	}
 
 	node_delete(deletion->node);
