@@ -28,7 +28,7 @@ int cmd_set_root(char *);
 
 /* private functions */
 struct node_list *_node_from_num(unsigned int);
-void _set_current_root(struct node_list *, unsigned int);
+void _set_current_root(struct node_list *);
 unsigned int _get_current_root(void);
 
 #endif /* _SHELL_H */

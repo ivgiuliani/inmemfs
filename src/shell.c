@@ -14,7 +14,6 @@ unsigned int _nodenum = 0;
 
 /* current root node */
 struct node_list *_current_root = NULL;
-unsigned int _current_root_num = 0;
 
 /* current node */
 struct node *_current = NULL;
@@ -431,7 +430,6 @@ cmd_delete_root(char *argline) {
 
 	if (_current_root == deletion) {
 		_current_root = NULL;
-		_current_root_num = 0;
 		_current = NULL;
 	}
 
@@ -454,7 +452,7 @@ cmd_set_root(char *argline) {
 	if (root == NULL)
 		return E_OUT_OF_BOUNDS;
 
-	_set_current_root(root, rootnum);
+	_set_current_root(root);
 
 	return EXIT_SUCCESS;
 }
@@ -466,7 +464,7 @@ cmd_get_root(char *argline) {
 
 	if (_current_root == NULL)
 		printf("No current root node set\n");
-	else printf("%2d: %s\n", _current_root_num, _current_root->node->name);
+	else printf("%s\n", _current_root->node->name);
 
 	return EXIT_SUCCESS;
 }
@@ -492,13 +490,7 @@ _node_from_num(unsigned int num) {
 }
 
 void
-_set_current_root(struct node_list *root, unsigned int rootnum) {
+_set_current_root(struct node_list *root) {
 	_current_root = root;
-	_current_root_num = rootnum;
 	_current = root->node;
-}
-
-unsigned int
-_get_current_root(void) {
-	return _current_root_num;
 }
