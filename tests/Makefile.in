@@ -41,7 +41,8 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 am_check_inmemfs_OBJECTS = check_inmemfs-check.$(OBJEXT) \
-	check_inmemfs-node.$(OBJEXT) check_inmemfs-shell.$(OBJEXT)
+	check_inmemfs-node.$(OBJEXT) check_inmemfs-shell.$(OBJEXT) \
+	check_inmemfs-commands.$(OBJEXT)
 check_inmemfs_OBJECTS = $(am_check_inmemfs_OBJECTS)
 check_inmemfs_DEPENDENCIES =
 check_inmemfs_LINK = $(CCLD) $(check_inmemfs_CFLAGS) $(CFLAGS) \
@@ -145,7 +146,14 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-check_inmemfs_SOURCES = check.c $(top_builddir)/src/node.h $(top_builddir)/src/node.c $(top_builddir)/src/shell.h $(top_builddir)/src/shell.c
+check_inmemfs_SOURCES = check.c \
+												$(top_builddir)/src/node.h         \
+												$(top_builddir)/src/node.c         \
+												$(top_builddir)/src/shell.h        \
+												$(top_builddir)/src/shell.c        \
+												$(top_builddir)/src/commands.h     \
+												$(top_builddir)/src/commands.c
+
 check_inmemfs_CFLAGS = @CHECK_CFLAGS@
 check_inmemfs_LDADD = @CHECK_LIBS@
 all: all-am
@@ -195,6 +203,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-check.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-commands.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-node.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-shell.Po@am__quote@
 
@@ -253,6 +262,20 @@ check_inmemfs-shell.obj: $(top_builddir)/src/shell.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/shell.c' object='check_inmemfs-shell.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-shell.obj `if test -f '$(top_builddir)/src/shell.c'; then $(CYGPATH_W) '$(top_builddir)/src/shell.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/shell.c'; fi`
+
+check_inmemfs-commands.o: $(top_builddir)/src/commands.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-commands.o -MD -MP -MF $(DEPDIR)/check_inmemfs-commands.Tpo -c -o check_inmemfs-commands.o `test -f '$(top_builddir)/src/commands.c' || echo '$(srcdir)/'`$(top_builddir)/src/commands.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-commands.Tpo $(DEPDIR)/check_inmemfs-commands.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/commands.c' object='check_inmemfs-commands.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-commands.o `test -f '$(top_builddir)/src/commands.c' || echo '$(srcdir)/'`$(top_builddir)/src/commands.c
+
+check_inmemfs-commands.obj: $(top_builddir)/src/commands.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-commands.obj -MD -MP -MF $(DEPDIR)/check_inmemfs-commands.Tpo -c -o check_inmemfs-commands.obj `if test -f '$(top_builddir)/src/commands.c'; then $(CYGPATH_W) '$(top_builddir)/src/commands.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/commands.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-commands.Tpo $(DEPDIR)/check_inmemfs-commands.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/commands.c' object='check_inmemfs-commands.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-commands.obj `if test -f '$(top_builddir)/src/commands.c'; then $(CYGPATH_W) '$(top_builddir)/src/commands.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/commands.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

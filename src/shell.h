@@ -16,19 +16,12 @@ char **shell_completion(const char *, int, int);
 char *shell_command_generator(const char *, int);
 struct node_list *shell_get_root(void);
 void shell_set_root(struct node_list *);
+unsigned int shell_get_roots_num(void);
+void shell_set_roots_num(unsigned int);
+struct node_list *shell_get_root_reference();
+void shell_set_root_reference(struct node_list *);
 struct node *shell_get_curr_node(void);
 void shell_set_curr_node(struct node *);
-
-int cmd_cd(char *);
-int cmd_copyto(char *);
-int cmd_create_root(char *);
-int cmd_delete_root(char *);
-int cmd_list_root(char *);
-int cmd_mkdir(char *);
-int cmd_rmdir(char *);
-int cmd_get_root(char *);
-int cmd_ls(char *);
-int cmd_set_root(char *);
 
 /* private functions */
 struct node_list *_node_from_num(unsigned int);

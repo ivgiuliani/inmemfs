@@ -4,6 +4,7 @@
 
 #include "../src/errors.h"
 #include "../src/shell.h"
+#include "../src/commands.h"
 #include "../src/node.h"
 
 START_TEST (node_creation)
