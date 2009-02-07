@@ -104,6 +104,9 @@ shell_err_matcher(int return_code) {
 		case E_INVALID_NAME:
 			printf("The argument contains invalid characters\n");
 			break;
+		case E_TOO_MANY_ARGS:
+			printf("Too many arguments passed to the command\n");
+			break;
 		}
 }
 
@@ -134,7 +137,7 @@ shell_completion(const char *text, int start, int end) {
  * to start from scratch; without any state (i.e. STATE == 0), then we
  * start at the top of the list. */
 char *
-shell_command_generator (const char *text, int state) {
+shell_command_generator(const char *text, int state) {
 	static int list_index, len;
 	char *name;
 
@@ -199,6 +202,57 @@ shell_parse_line(char *line) {
 		free(cmd);
 
 	return ret;
+}
+
+/*
+ * Parse the argument line for shell commands
+ */
+int
+shell_parse_argline(char *argline, char **arguments) {
+	unsigned int i;
+	unsigned int start;
+	unsigned int arg_num = 0;
+
+	/* skip white spaces before than the argline */
+	while ((argline[i] == ' ') || (argline[i] == '\0'))
+		i++;
+
+	start = i;
+	while (i <= strlen(argline)) {
+		if ((argline[i] == ' ') || (argline[i] == '\0')) {
+			if (arg_num >= MAX_ARG_NUM)
+				return E_TOO_MANY_ARGS;
+
+			arguments[arg_num] = (char *)malloc(i - start + 1);
+			strncpy(arguments[arg_num], &argline[start], i - start);
+			arguments[arg_num++][i - start] = '\0';
+
+			/* skip trailing whitespaces */
+			while (argline[i] == ' ')
+				i++;
+
+			start = i + 1;
+		}
+
+		i++;
+	}
+
+	return arg_num;
+}
+
+/*
+ * Cleanup the parsed argline.
+ * This function MUST be called ALWAYS after you're done
+ * with the argline
+ */
+void
+shell_free_parsed_argline(char **argline, int arg_no) {
+	short int i;
+
+	for (i = 0; i < arg_no; i++) {
+		if (argline[i] != NULL)
+			free(argline[i]);
+	}
 }
 
 /*

@@ -330,6 +330,29 @@ START_TEST (shell_change_dir)
 }
 END_TEST
 
+START_TEST (shell_argline)
+{
+	char *res[10];
+	short int no;
+
+	no = shell_parse_argline("two arguments", res);
+	fail_unless (no == 2);
+	shell_free_parsed_argline(res, no);
+
+	no = shell_parse_argline("", res);
+	fail_unless (no == 0);
+	shell_free_parsed_argline(res, no);
+
+	no = shell_parse_argline("       ", res);
+	fail_unless (no == 0);
+	shell_free_parsed_argline(res, no);
+
+	no = shell_parse_argline("arguments    with     a    lot   of   space", res);
+	fail_unless (no == 6);
+	shell_free_parsed_argline(res, no);
+}
+END_TEST
+
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
@@ -357,6 +380,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_shell, shell_no_root_selected);
 	tcase_add_test(tc_shell, shell_delete_dir);
 	tcase_add_test(tc_shell, shell_change_dir);
+	tcase_add_test(tc_shell, shell_argline);
 
 	return s;
 }

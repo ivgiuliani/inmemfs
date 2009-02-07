@@ -105,6 +105,8 @@ cmd_cd(char *argline) {
 int
 cmd_copyto(char *argline) {
 	struct node *node;
+	char *arguments[MAX_ARG_NUM];
+	int arg_no, i;
 
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
@@ -115,7 +117,16 @@ cmd_copyto(char *argline) {
 	if (!*argline)
 		return E_INVALID_SYNTAX;
 
-	node = node_find_children(shell_get_curr_node(), argline);
+	arg_no = shell_parse_argline(argline, arguments);
+	if (arg_no < 0)
+		return arg_no;
+	else if (arg_no > 1) {
+		shell_free_parsed_argline(arguments, arg_no);
+		return E_TOO_MANY_ARGS;
+	}
+
+	node = node_find_children(shell_get_curr_node(), arguments[0]);
+	shell_free_parsed_argline(arguments, arg_no);
 
 	if (node == NULL)
 		return E_DIR_NOT_FOUND;

@@ -11,6 +11,8 @@ void shell_err_matcher(int);
 void shell_hello(void);
 void *shell_binsearch_cmd(char *);
 int shell_parse_line(char *);
+int shell_parse_argline(char *, char **);
+void shell_free_parsed_argline(char **, int);
 void shell_cleanup(void);
 char **shell_completion(const char *, int, int);
 char *shell_command_generator(const char *, int);
