@@ -5,6 +5,7 @@ inmemfs_SOURCES = \
 									shell.c       \
 									commands.c    \
 									node.c        \
-									kalloc.c
+									kalloc.c      \
+									io.c
 
 inmemfs_LDADD = $(READLINELIB)
