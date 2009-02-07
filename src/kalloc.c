@@ -21,7 +21,7 @@ kalloc(int size) {
 	unsigned int chunk_num, rest;
 
 	chunk_num = size / CHUNK_SIZE;
-	rest = size - (CHUNK_SIZE * chunk_num);
+	rest = size % CHUNK_SIZE;
 
 	while (chunk_num-- > 0) {
 		chunk = _alloc_chunk(CHUNK_SIZE);
