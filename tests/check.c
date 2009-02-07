@@ -360,6 +360,21 @@ START_TEST (shell_invalid_chars_in_root)
 }
 END_TEST
 
+START_TEST (shell_make_file)
+{
+	int ret;
+
+	shell_parse_line("createroot root");
+	shell_parse_line("setroot 1");
+
+	ret = shell_parse_line("mkfile");
+	fail_unless (ret == E_INVALID_SYNTAX);
+
+	ret = shell_parse_line("mkfile test");
+	fail_unless (ret == EXIT_SUCCESS);
+}
+END_TEST
+
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
@@ -389,6 +404,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_shell, shell_change_dir);
 	tcase_add_test(tc_shell, shell_argline);
 	tcase_add_test(tc_shell, shell_invalid_chars_in_root);
+	tcase_add_test(tc_shell, shell_make_file);
 
 	return s;
 }

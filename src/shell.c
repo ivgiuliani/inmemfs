@@ -31,6 +31,7 @@ struct _commands {
 	{ "listroot",   cmd_list_root },
 	{ "ls",         cmd_ls },
 	{ "mkdir",      cmd_mkdir },
+	{ "mkfile",     cmd_mkfile },
 	{ "rmdir",      cmd_rmdir },
 	{ "setroot",    cmd_set_root },
 };

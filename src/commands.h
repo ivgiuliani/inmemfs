@@ -8,5 +8,5 @@ int cmd_rmdir(char *);
 int cmd_get_root(char *);
 int cmd_ls(char *);
 int cmd_set_root(char *);
-
+int cmd_mkfile(char *);
 

@@ -253,3 +253,33 @@ cmd_get_root(char *argline) {
 	return EXIT_SUCCESS;
 }
 
+int
+cmd_mkfile(char *argline) {
+	char *args[1];
+	int arg_no;
+	struct node *n;
+
+	if (shell_get_root() == NULL)
+		return E_NO_ROOT;
+
+	if (shell_get_curr_node() == NULL)
+		return E_NO_DIR;
+
+	arg_no = shell_parse_argline(argline, args);
+
+	if (arg_no < 0)
+		return arg_no;
+	else if (arg_no != 1) {
+		shell_free_parsed_argline(args, arg_no);
+		return E_INVALID_SYNTAX;
+	}
+
+	n = node_create(args[0], N_FILE);
+	shell_free_parsed_argline(args, arg_no);
+	if (n == NULL)
+		return E_INVALID_NAME;
+	else return node_add_child(shell_get_curr_node(), n);
+
+	return EXIT_SUCCESS;
+}
+
