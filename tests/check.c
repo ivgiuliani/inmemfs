@@ -353,6 +353,13 @@ START_TEST (shell_argline)
 }
 END_TEST
 
+START_TEST (shell_invalid_chars_in_root)
+{
+	int ret = shell_parse_line("createroot i!have\\invalid?characters");
+	fail_unless (ret == E_INVALID_NAME);
+}
+END_TEST
+
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
@@ -381,6 +388,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_shell, shell_delete_dir);
 	tcase_add_test(tc_shell, shell_change_dir);
 	tcase_add_test(tc_shell, shell_argline);
+	tcase_add_test(tc_shell, shell_invalid_chars_in_root);
 
 	return s;
 }

@@ -151,6 +151,8 @@ cmd_create_root(char *argline) {
 		return E_CANNOT_PROCEED;
 	
 	n = node_create(argline, N_DIRECTORY);
+	if (n == NULL)
+		return E_INVALID_NAME;
 
 	if (shell_get_root_reference() == NULL) {
 		nl = node_list_create();
