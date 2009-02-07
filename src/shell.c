@@ -214,6 +214,9 @@ shell_parse_argline(char *argline, char **arguments) {
 	unsigned int start;
 	unsigned int arg_num = 0;
 
+	if (!*argline)
+		return 0;
+
 	/* skip white spaces before than the argline */
 	while ((argline[i] == ' ') || (argline[i] == '\0'))
 		i++;
