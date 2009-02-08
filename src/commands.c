@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #include "commands.h"
 #include "shell.h"
 #include "errors.h"
+#include "io.h"
 
 int
 cmd_mkdir(char *argline) {
@@ -104,10 +106,12 @@ cmd_cd(char *argline) {
 
 int
 cmd_copyto(char *argline) {
-	struct node *node;
 	char *arguments[MAX_ARG_NUM], input_file_path[255];
 	int arg_no, i;
 	FILE *input_fd;
+	KFILE knode;
+	struct stat stat;
+	void *buffer = NULL;
 
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
@@ -126,23 +130,28 @@ cmd_copyto(char *argline) {
 		return E_TOO_MANY_ARGS;
 	}
 
-	node = node_find_children(shell_get_curr_node(), arguments[0]);
+	knode = kopen(shell_get_root_reference()->node, arguments[0]);
 	if (strlen(arguments[1]) > 255)
 		return E_CANT_GET_EXT_FILE;
 
 	strcpy(input_file_path, arguments[1]);
 	shell_free_parsed_argline(arguments, arg_no);
 
-	if (node == NULL)
+	if (knode == NULL)
 		return E_DIR_NOT_FOUND;
 
-	if (node->type != N_FILE)
+	if (knode->node->type != N_FILE)
 		return E_INVALID_TYPE;
 
 	input_fd = fopen(input_file_path, "r");
-	printf("opening %s (%s)\n", input_file_path, input_fd);
 	if (input_fd == NULL)
 		return E_CANT_GET_EXT_FILE;
+
+	fstat(fileno(input_fd), &stat);
+	buffer = (void *)malloc(stat.st_size + 1);
+	fread(buffer, stat.st_size, 1, input_fd);
+	kwrite(knode, buffer, stat.st_size);
+	free(buffer);
 
 	fclose(input_fd);
 

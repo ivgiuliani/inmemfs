@@ -9,8 +9,8 @@ typedef struct _chunk {
 
 Chunk *kalloc(int);
 void kfree(Chunk *);
-unsigned int kread(Chunk *, unsigned int, void *);
-unsigned int kwrite(Chunk *, void *, unsigned int);
+unsigned int _raw_kread(Chunk *, unsigned int, void *);
+unsigned int _raw_kwrite(Chunk *, void *, unsigned int);
 
 Chunk *_alloc_chunk(const int);
 

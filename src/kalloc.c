@@ -76,9 +76,11 @@ kfree(Chunk *chunk) {
  * Read the specified size starting from the first chunk 'chunk'.
  * It returns the effective number of read bytes (i.e. if 'size' is greater
  * than the actual allocated memory, the whole allocated memory).
+ * Do not use this function directly, we provided you kread which
+ * will make your life much easier.
  */
 unsigned int
-kread(Chunk *c, unsigned int size, void *buffer) {
+_raw_kread(Chunk *c, unsigned int size, void *buffer) {
 	unsigned int read_bytes = 0, copy_size;
 	Chunk *chunk = c;
 
@@ -99,9 +101,11 @@ kread(Chunk *c, unsigned int size, void *buffer) {
  * starting from 'chunk'
  * Returns the actual number of written bytes (i.e. if 'size' is greater
  * than the actual allocated memory, the whole allocated memory).
+ * Do not use this function directly, we provided you kwrite which
+ * will make your life much easier.
  */
 unsigned int
-kwrite(Chunk *c, void *data, unsigned int size) {
+_raw_kwrite(Chunk *c, void *data, unsigned int size) {
 	Chunk *chunk = c;
 	unsigned int written_bytes = 0, copy_size;
 

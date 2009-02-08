@@ -20,6 +20,8 @@ void kclose(KFILE);
 long ktell(KFILE);
 void krewind(KFILE);
 int kseek(KFILE, int, short int);
+unsigned int kread(KFILE, unsigned int, void *);
+unsigned int kwrite(KFILE, void *, unsigned int);
 
 KFILE _alloc_kfile(struct node *);
 
