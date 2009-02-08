@@ -43,7 +43,8 @@ CONFIG_CLEAN_FILES =
 am_check_inmemfs_OBJECTS = check_inmemfs-check.$(OBJEXT) \
 	check_inmemfs-node.$(OBJEXT) check_inmemfs-shell.$(OBJEXT) \
 	check_inmemfs-commands.$(OBJEXT) \
-	check_inmemfs-parser.$(OBJEXT) check_inmemfs-io.$(OBJEXT)
+	check_inmemfs-parser.$(OBJEXT) check_inmemfs-io.$(OBJEXT) \
+	check_inmemfs-kalloc.$(OBJEXT)
 check_inmemfs_OBJECTS = $(am_check_inmemfs_OBJECTS)
 check_inmemfs_DEPENDENCIES =
 check_inmemfs_LINK = $(CCLD) $(check_inmemfs_CFLAGS) $(CFLAGS) \
@@ -157,7 +158,9 @@ check_inmemfs_SOURCES = check.c \
 												$(top_builddir)/src/parser.h       \
 												$(top_builddir)/src/parser.c       \
 												$(top_builddir)/src/io.h           \
-												$(top_builddir)/src/io.c
+												$(top_builddir)/src/io.c           \
+												$(top_builddir)/src/kalloc.h       \
+												$(top_builddir)/src/kalloc.c
 
 check_inmemfs_CFLAGS = @CHECK_CFLAGS@
 check_inmemfs_LDADD = @CHECK_LIBS@
@@ -210,6 +213,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-commands.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-kalloc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-node.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-shell.Po@am__quote@
@@ -311,6 +315,20 @@ check_inmemfs-io.obj: $(top_builddir)/src/io.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/io.c' object='check_inmemfs-io.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-io.obj `if test -f '$(top_builddir)/src/io.c'; then $(CYGPATH_W) '$(top_builddir)/src/io.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/io.c'; fi`
+
+check_inmemfs-kalloc.o: $(top_builddir)/src/kalloc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-kalloc.o -MD -MP -MF $(DEPDIR)/check_inmemfs-kalloc.Tpo -c -o check_inmemfs-kalloc.o `test -f '$(top_builddir)/src/kalloc.c' || echo '$(srcdir)/'`$(top_builddir)/src/kalloc.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-kalloc.Tpo $(DEPDIR)/check_inmemfs-kalloc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/kalloc.c' object='check_inmemfs-kalloc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-kalloc.o `test -f '$(top_builddir)/src/kalloc.c' || echo '$(srcdir)/'`$(top_builddir)/src/kalloc.c
+
+check_inmemfs-kalloc.obj: $(top_builddir)/src/kalloc.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-kalloc.obj -MD -MP -MF $(DEPDIR)/check_inmemfs-kalloc.Tpo -c -o check_inmemfs-kalloc.obj `if test -f '$(top_builddir)/src/kalloc.c'; then $(CYGPATH_W) '$(top_builddir)/src/kalloc.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/kalloc.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-kalloc.Tpo $(DEPDIR)/check_inmemfs-kalloc.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/kalloc.c' object='check_inmemfs-kalloc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-kalloc.obj `if test -f '$(top_builddir)/src/kalloc.c'; then $(CYGPATH_W) '$(top_builddir)/src/kalloc.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/kalloc.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

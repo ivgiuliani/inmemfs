@@ -10,7 +10,9 @@ check_inmemfs_SOURCES = check.c \
 												$(top_builddir)/src/parser.h       \
 												$(top_builddir)/src/parser.c       \
 												$(top_builddir)/src/io.h           \
-												$(top_builddir)/src/io.c
+												$(top_builddir)/src/io.c           \
+												$(top_builddir)/src/kalloc.h       \
+												$(top_builddir)/src/kalloc.c
 
 check_inmemfs_CFLAGS = @CHECK_CFLAGS@
 check_inmemfs_LDADD = @CHECK_LIBS@
