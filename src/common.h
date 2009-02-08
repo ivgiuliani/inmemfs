@@ -5,6 +5,7 @@
 #define MAX_NAME_LENGTH 50
 #define MAX_ROOT_NODES 5
 #define MAX_ARG_NUM 10
+#define MAX_TREE_DEPTH 20
 #define CHUNK_SIZE 5242880 /* 5Mb */
 
 #define NODE_SELF "."

@@ -15,7 +15,7 @@ typedef struct _KFILE *KFILE;
 #define KF_SEEK_CURR  2
 #define KF_SEEK_EOF   3
 
-KFILE kopen(char *);
+KFILE kopen(struct node *, char *);
 void kclose(KFILE);
 long ktell(KFILE);
 void krewind(KFILE);

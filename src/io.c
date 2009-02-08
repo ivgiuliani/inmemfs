@@ -4,8 +4,15 @@
 #include "io.h"
 
 KFILE
-kopen(char *path) {
+kopen(struct node *root, char *path) {
 	KFILE file;
+	struct node *node;
+
+	node = node_path_find(root, path);
+	if (node == NULL)
+		return NULL;
+
+	file = _alloc_kfile(node);
 
 	return file;
 }

@@ -34,5 +34,6 @@ struct node *node_get_nth_children(struct node *, int);
 unsigned int node_get_children_no(struct node *);
 struct node_list *node_list_create(void);
 struct node *node_list_add_sibling(struct node_list *, struct node *);
+struct node *node_path_find(struct node *, char *path);
 
 #endif /* _NODE_H */

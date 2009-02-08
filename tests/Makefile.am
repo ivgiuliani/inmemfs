@@ -6,7 +6,9 @@ check_inmemfs_SOURCES = check.c \
 												$(top_builddir)/src/shell.h        \
 												$(top_builddir)/src/shell.c        \
 												$(top_builddir)/src/commands.h     \
-												$(top_builddir)/src/commands.c
+												$(top_builddir)/src/commands.c     \
+												$(top_builddir)/src/parser.h       \
+												$(top_builddir)/src/parser.c
 
 check_inmemfs_CFLAGS = @CHECK_CFLAGS@
 check_inmemfs_LDADD = @CHECK_LIBS@

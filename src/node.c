@@ -5,6 +5,7 @@
 #include "common.h"
 #include "errors.h"
 #include "node.h"
+#include "parser.h"
 
 struct node *
 node_create(char *name, enum node_type type) {
@@ -248,5 +249,25 @@ node_list_add_sibling(struct node_list *list, struct node *node) {
 	nl->node = node;
 
 	return node;
+}
+
+struct node *
+node_path_find(struct node *root, char *path) {
+	char *nodes[MAX_TREE_DEPTH];
+	short int node_num, depth = 0;
+	struct node *parent = root;
+
+	node_num = parser_split(path, '/', nodes, MAX_TREE_DEPTH);
+	if (node_num < 0)
+		return NULL;
+
+	while (depth < node_num) {
+		parent = node_find_children(parent, nodes[depth++]);
+
+		/* invalid path */
+		if (parent == NULL)
+			return NULL;
+	}
+	return parent;
 }
 

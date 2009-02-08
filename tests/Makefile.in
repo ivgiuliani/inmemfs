@@ -42,7 +42,8 @@ CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 am_check_inmemfs_OBJECTS = check_inmemfs-check.$(OBJEXT) \
 	check_inmemfs-node.$(OBJEXT) check_inmemfs-shell.$(OBJEXT) \
-	check_inmemfs-commands.$(OBJEXT)
+	check_inmemfs-commands.$(OBJEXT) \
+	check_inmemfs-parser.$(OBJEXT)
 check_inmemfs_OBJECTS = $(am_check_inmemfs_OBJECTS)
 check_inmemfs_DEPENDENCIES =
 check_inmemfs_LINK = $(CCLD) $(check_inmemfs_CFLAGS) $(CFLAGS) \
@@ -152,7 +153,9 @@ check_inmemfs_SOURCES = check.c \
 												$(top_builddir)/src/shell.h        \
 												$(top_builddir)/src/shell.c        \
 												$(top_builddir)/src/commands.h     \
-												$(top_builddir)/src/commands.c
+												$(top_builddir)/src/commands.c     \
+												$(top_builddir)/src/parser.h       \
+												$(top_builddir)/src/parser.c
 
 check_inmemfs_CFLAGS = @CHECK_CFLAGS@
 check_inmemfs_LDADD = @CHECK_LIBS@
@@ -205,6 +208,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-check.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-commands.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-node.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-shell.Po@am__quote@
 
 .c.o:
@@ -276,6 +280,20 @@ check_inmemfs-commands.obj: $(top_builddir)/src/commands.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/commands.c' object='check_inmemfs-commands.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-commands.obj `if test -f '$(top_builddir)/src/commands.c'; then $(CYGPATH_W) '$(top_builddir)/src/commands.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/commands.c'; fi`
+
+check_inmemfs-parser.o: $(top_builddir)/src/parser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-parser.o -MD -MP -MF $(DEPDIR)/check_inmemfs-parser.Tpo -c -o check_inmemfs-parser.o `test -f '$(top_builddir)/src/parser.c' || echo '$(srcdir)/'`$(top_builddir)/src/parser.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-parser.Tpo $(DEPDIR)/check_inmemfs-parser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/parser.c' object='check_inmemfs-parser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-parser.o `test -f '$(top_builddir)/src/parser.c' || echo '$(srcdir)/'`$(top_builddir)/src/parser.c
+
+check_inmemfs-parser.obj: $(top_builddir)/src/parser.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-parser.obj -MD -MP -MF $(DEPDIR)/check_inmemfs-parser.Tpo -c -o check_inmemfs-parser.obj `if test -f '$(top_builddir)/src/parser.c'; then $(CYGPATH_W) '$(top_builddir)/src/parser.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/parser.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-parser.Tpo $(DEPDIR)/check_inmemfs-parser.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$(top_builddir)/src/parser.c' object='check_inmemfs-parser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-parser.obj `if test -f '$(top_builddir)/src/parser.c'; then $(CYGPATH_W) '$(top_builddir)/src/parser.c'; else $(CYGPATH_W) '$(srcdir)/$(top_builddir)/src/parser.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
