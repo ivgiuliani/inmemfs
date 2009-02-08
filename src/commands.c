@@ -144,8 +144,6 @@ cmd_copyto(char *argline) {
 		return E_INVALID_TYPE;
 
 	input_fd = fopen(input_file_path, "r");
-	free(input_file_path);
-
 	if (input_fd == NULL)
 		return E_CANT_GET_EXT_FILE;
 
