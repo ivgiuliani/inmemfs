@@ -274,7 +274,7 @@ cmd_get_root(char *argline) {
 
 int
 cmd_mkfile(char *argline) {
-	char *args[1];
+	char *args[MAX_ARG_NUM];
 	int arg_no;
 	struct node *n;
 
