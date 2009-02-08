@@ -34,7 +34,7 @@ parser_split(char *line, const char delimiter, char **splitted, unsigned int max
 			splitted[arg_num++][i - start] = '\0';
 
 			/* skip trailing whitespaces */
-			while (line[i] == ' ')
+			while (line[i] == delimiter)
 				i++;
 
 			start = i;
