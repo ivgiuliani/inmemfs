@@ -6,6 +6,7 @@ inmemfs_SOURCES = \
 									commands.c    \
 									node.c        \
 									kalloc.c      \
-									io.c
+									io.c          \
+									parser.c
 
 inmemfs_LDADD = $(READLINELIB)

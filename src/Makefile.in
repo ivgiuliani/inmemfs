@@ -45,7 +45,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_inmemfs_OBJECTS = main.$(OBJEXT) shell.$(OBJEXT) commands.$(OBJEXT) \
-	node.$(OBJEXT) kalloc.$(OBJEXT) io.$(OBJEXT)
+	node.$(OBJEXT) kalloc.$(OBJEXT) io.$(OBJEXT) parser.$(OBJEXT)
 inmemfs_OBJECTS = $(am_inmemfs_OBJECTS)
 inmemfs_DEPENDENCIES =
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -153,7 +153,8 @@ inmemfs_SOURCES = \
 									commands.c    \
 									node.c        \
 									kalloc.c      \
-									io.c
+									io.c          \
+									parser.c
 
 inmemfs_LDADD = $(READLINELIB)
 all: config.h
@@ -245,6 +246,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kalloc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/node.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shell.Po@am__quote@
 
 .c.o:

@@ -1,3 +1,6 @@
+#include <stdlib.h>
+
+#include "node.h"
 #include "io.h"
 
 KFILE
@@ -8,17 +11,26 @@ kopen(char *path) {
 }
 
 void
-kclose(KFILE *kfile) {
+kclose(KFILE kfile) {
 }
 
 long
-ktell(KFILE *kfile) {
+ktell(KFILE kfile) {
 }
 
 void
-krewind(KFILE *kfile) {
+krewind(KFILE kfile) {
 }
 
 int
-kseek(KFILE *kfile, int offset, short int relative_to) {
+kseek(KFILE kfile, int offset, short int relative_to) {
+}
+
+KFILE
+_alloc_kfile(struct node *node) {
+	KFILE kfile;
+	kfile = (KFILE *)malloc(sizeof(KFILE));
+
+	kfile->node = node;
+	kfile->first_chunk = NULL;
 }

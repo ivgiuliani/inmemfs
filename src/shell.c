@@ -8,6 +8,7 @@
 #include "shell.h"
 #include "commands.h"
 #include "node.h"
+#include "parser.h"
 
 /* handle multiple root nodes */
 struct node_list *_nodes = NULL;
@@ -210,38 +211,7 @@ shell_parse_line(char *line) {
  */
 int
 shell_parse_argline(char *argline, char **arguments) {
-	unsigned int i;
-	unsigned int start;
-	unsigned int arg_num = 0;
-
-	if (!*argline)
-		return 0;
-
-	/* skip white spaces before than the argline */
-	while ((argline[i] == ' ') || (argline[i] == '\0'))
-		i++;
-
-	start = i;
-	while (i <= strlen(argline)) {
-		if ((argline[i] == ' ') || (argline[i] == '\0')) {
-			if (arg_num >= MAX_ARG_NUM)
-				return E_TOO_MANY_ARGS;
-
-			arguments[arg_num] = (char *)malloc(i - start + 1);
-			strncpy(arguments[arg_num], &argline[start], i - start);
-			arguments[arg_num++][i - start] = '\0';
-
-			/* skip trailing whitespaces */
-			while (argline[i] == ' ')
-				i++;
-
-			start = i + 1;
-		}
-
-		i++;
-	}
-
-	return arg_num;
+	return parser_split(argline, ' ', arguments, MAX_ARG_NUM);
 }
 
 /*
