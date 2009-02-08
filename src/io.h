@@ -6,7 +6,6 @@
 
 struct _KFILE {
 	struct node *node;
-	Chunk *first_chunk;
 };
 typedef struct _KFILE *KFILE;
 

@@ -1,6 +1,7 @@
 #ifndef _NODE_H
 #define _NODE_H
 
+#include "kalloc.h"
 #include "common.h"
 
 enum node_type { N_FILE, N_DIRECTORY };
@@ -15,6 +16,7 @@ struct node {
 	char name[MAX_NAME_LENGTH];
 	enum node_type type;
 	struct node *father;
+	Chunk *first_chunk;
 
 	unsigned int children_no;
 	struct node_list *childrens;

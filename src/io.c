@@ -24,7 +24,6 @@ kopen(struct node *root, char *path) {
  */
 void
 kclose(KFILE kfile) {
-	kfree(kfile->first_chunk);
 	free(kfile);
 }
 
@@ -46,7 +45,7 @@ _alloc_kfile(struct node *node) {
 	kfile = (KFILE)malloc(sizeof(struct _KFILE));
 
 	kfile->node = node;
-	kfile->first_chunk = NULL;
+	kfile->node->first_chunk = NULL;
 }
 
 /*
@@ -55,7 +54,7 @@ _alloc_kfile(struct node *node) {
  */
 unsigned int
 kread(KFILE kfile, unsigned int size, void *buffer) {
-	return _raw_kread(kfile->first_chunk, size, buffer);
+	return _raw_kread(kfile->node->first_chunk, size, buffer);
 }
 
 /*
@@ -64,5 +63,5 @@ kread(KFILE kfile, unsigned int size, void *buffer) {
  */
 unsigned int
 kwrite(KFILE kfile, void *data, unsigned int size) {
-	return _raw_kwrite(kfile->first_chunk, data, size);
+	return _raw_kwrite(kfile->node->first_chunk, data, size);
 }

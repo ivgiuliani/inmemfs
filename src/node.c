@@ -15,6 +15,7 @@ node_create(char *name, enum node_type type) {
 	n->type = type;
 	n->children_no = 0;
 	n->father = NULL;
+	n->first_chunk = NULL;
 
 	/* defer initalizations of childrens until we're actually adding
 	 * a new children
@@ -77,6 +78,9 @@ node_delete(struct node *n) {
 			nl = next;
 		}
 	}
+
+	if (n->type == N_FILE)
+		kfree(n->first_chunk);
 
 	free(n);
 	n = NULL;
