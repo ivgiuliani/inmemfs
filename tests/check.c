@@ -177,6 +177,28 @@ START_TEST (node_check_invalid_names)
 }
 END_TEST
 
+START_TEST (node_find_path)
+{
+	struct node *father = node_create("father", N_DIRECTORY);
+	struct node *c1 = node_create("subdir1", N_DIRECTORY);
+	struct node *c2 = node_create("subdir2", N_DIRECTORY);
+	struct node *c3 = node_create("subdir3", N_DIRECTORY);
+	struct node *c4 = node_create("subdir4", N_DIRECTORY);
+
+	node_add_child(father, c1);
+	node_add_child(c1, c2);
+	node_add_child(c2, c3);
+	node_add_child(c3, c4);
+
+	fail_unless (node_path_find(father, "subdir1/subdir2/subdir3/subdir4") == c4);
+	fail_unless (node_path_find(father, "subdir1/subdir2/subdir3") == c3);
+	fail_unless (node_path_find(father, "subdir1/subdir2") == c2);
+	fail_unless (node_path_find(father, "subdir1") == c1);
+
+	node_delete(father);
+}
+END_TEST
+
 START_TEST (node_list_creation)
 {
 	struct node_list *nl = NULL;
@@ -196,9 +218,9 @@ START_TEST (node_list_add_siblings)
 
 	nl = node_list_create();
 
-	n1 = node_create("Node 1", N_FILE);
-	n2 = node_create("Node 2", N_FILE);
-	n3 = node_create("Node 3", N_FILE);
+	n1 = node_create("Node-1", N_FILE);
+	n2 = node_create("Node-2", N_FILE);
+	n3 = node_create("Node-3", N_FILE);
 
 	fail_unless (node_list_add_sibling(nl, n1) == n1,
 			"Returned object mismatch from expected object");
@@ -394,6 +416,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_tree, node_can_get_father);
 	tcase_add_test(tc_tree, node_check_valid_names);
 	tcase_add_test(tc_tree, node_check_invalid_names);
+	tcase_add_test(tc_tree, node_find_path);
 
 	suite_add_tcase(s, tc_shell);
 	tcase_add_test(tc_shell, shell_invalid_command);
