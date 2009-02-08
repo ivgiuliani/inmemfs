@@ -17,9 +17,15 @@ kopen(struct node *root, char *path) {
 	return file;
 }
 
+/*
+ * Destroys the file pointer. Once this function has been
+ * called, you can't reuse the file pointer again (unless
+ * you don't reopen the node)
+ */
 void
 kclose(KFILE kfile) {
 	kfree(kfile->first_chunk);
+	free(kfile);
 }
 
 long

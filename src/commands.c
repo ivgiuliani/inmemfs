@@ -155,6 +155,7 @@ cmd_copyto(char *argline) {
 
 	free(buffer);
 	fclose(input_fd);
+	kclose(knode);
 
 	return EXIT_SUCCESS;
 }
