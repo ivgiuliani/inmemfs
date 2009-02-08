@@ -44,3 +44,13 @@ parser_split(char *line, const char delimiter, char **splitted, unsigned int max
 
 	return arg_num;
 }
+
+void
+parse_free_splitted(char **splitted, int arg_no) {
+	short int i;
+
+	for (i = 0; i < arg_no; i++) {
+		if (splitted[i] != NULL)
+			free(splitted[i]);
+	}
+}

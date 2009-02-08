@@ -224,12 +224,7 @@ shell_parse_argline(char *argline, char **arguments) {
  */
 void
 shell_free_parsed_argline(char **argline, int arg_no) {
-	short int i;
-
-	for (i = 0; i < arg_no; i++) {
-		if (argline[i] != NULL)
-			free(argline[i]);
-	}
+	parse_free_splitted(argline, arg_no);
 }
 
 /*
