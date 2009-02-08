@@ -224,7 +224,7 @@ shell_parse_argline(char *argline, char **arguments) {
  */
 void
 shell_free_parsed_argline(char **argline, int arg_no) {
-	parse_free_splitted(argline, arg_no);
+	parser_free_splitted(argline, arg_no);
 }
 
 /*

@@ -265,9 +265,13 @@ node_path_find(struct node *root, char *path) {
 		parent = node_find_children(parent, nodes[depth++]);
 
 		/* invalid path */
-		if (parent == NULL)
+		if (parent == NULL) {
+			parser_free_splitted(nodes, node_num);
 			return NULL;
+		}
 	}
+
+	parser_free_splitted(nodes, node_num);
 	return parent;
 }
 

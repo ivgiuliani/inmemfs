@@ -148,11 +148,12 @@ cmd_copyto(char *argline) {
 		return E_CANT_GET_EXT_FILE;
 
 	fstat(fileno(input_fd), &stat);
+
 	buffer = (void *)malloc(stat.st_size + 1);
 	fread(buffer, stat.st_size, 1, input_fd);
 	kwrite(knode, buffer, stat.st_size);
-	free(buffer);
 
+	free(buffer);
 	fclose(input_fd);
 
 	return EXIT_SUCCESS;
