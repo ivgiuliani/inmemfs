@@ -105,8 +105,9 @@ cmd_cd(char *argline) {
 int
 cmd_copyto(char *argline) {
 	struct node *node;
-	char *arguments[MAX_ARG_NUM];
+	char *arguments[MAX_ARG_NUM], input_file_path[255];
 	int arg_no, i;
+	FILE *input_fd;
 
 	if (shell_get_root() == NULL)
 		return E_NO_ROOT;
@@ -120,12 +121,16 @@ cmd_copyto(char *argline) {
 	arg_no = shell_parse_argline(argline, arguments);
 	if (arg_no < 0)
 		return arg_no;
-	else if (arg_no > 1) {
+	else if (arg_no != 2) {
 		shell_free_parsed_argline(arguments, arg_no);
 		return E_TOO_MANY_ARGS;
 	}
 
 	node = node_find_children(shell_get_curr_node(), arguments[0]);
+	if (strlen(arguments[1]) > 255)
+		return E_CANT_GET_EXT_FILE;
+
+	strcpy(input_file_path, arguments[1]);
 	shell_free_parsed_argline(arguments, arg_no);
 
 	if (node == NULL)
@@ -134,7 +139,12 @@ cmd_copyto(char *argline) {
 	if (node->type != N_FILE)
 		return E_INVALID_TYPE;
 
-	/* TODO: implement the actual copy */
+	input_fd = fopen(input_file_path, "r");
+	printf("opening %s (%s)\n", input_file_path, input_fd);
+	if (input_fd == NULL)
+		return E_CANT_GET_EXT_FILE;
+
+	fclose(input_fd);
 
 	return EXIT_SUCCESS;
 }

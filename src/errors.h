@@ -15,5 +15,6 @@
 #define E_NAME_EXISTS         -12 /* a file or a directory with the same name already exists */
 #define E_INVALID_NAME        -13 /* name contains invalid characters */
 #define E_TOO_MANY_ARGS       -14 /* too many arguments passed */
+#define E_CANT_GET_EXT_FILE   -15 /* can't access to an external file */
 
 #endif /* _ERRORS_H */

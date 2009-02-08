@@ -109,6 +109,9 @@ shell_err_matcher(int return_code) {
 		case E_TOO_MANY_ARGS:
 			printf("Too many arguments passed to the command\n");
 			break;
+		case E_CANT_GET_EXT_FILE:
+			printf("Can't access to the specified file\n");
+			break;
 		}
 }
 
