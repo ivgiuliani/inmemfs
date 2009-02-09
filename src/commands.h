@@ -1,5 +1,6 @@
 int cmd_cd(char *);
 int cmd_copyto(char *);
+int cmd_writeto(char *);
 int cmd_create_root(char *);
 int cmd_delete_root(char *);
 int cmd_list_root(char *);

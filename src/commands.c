@@ -138,7 +138,7 @@ cmd_copyto(char *argline) {
 	shell_free_parsed_argline(arguments, arg_no);
 
 	if (knode == NULL)
-		return E_DIR_NOT_FOUND;
+		return E_FILE_NOT_FOUND;
 
 	if (knode->node->type != N_FILE)
 		return E_INVALID_TYPE;
@@ -149,12 +149,63 @@ cmd_copyto(char *argline) {
 
 	fstat(fileno(input_fd), &stat);
 
-	buffer = (void *)malloc(stat.st_size + 1);
+	buffer = (void *)calloc(1, stat.st_size + 1);
 	fread(buffer, stat.st_size, 1, input_fd);
 	kwrite(knode, buffer, stat.st_size);
 
 	free(buffer);
 	fclose(input_fd);
+	kclose(knode);
+
+	return EXIT_SUCCESS;
+}
+
+int
+cmd_writeto(char *argline) {
+	char *arguments[MAX_ARG_NUM], output_file_path[255];
+	int arg_no;
+	FILE *output_fd;
+	void *buffer = NULL;
+	KFILE knode;
+
+	if (shell_get_root() == NULL)
+		return E_NO_ROOT;
+
+	if (shell_get_curr_node() == NULL)
+		return E_NO_DIR;
+
+	arg_no = shell_parse_argline(argline, arguments);
+
+	if (arg_no < 0)
+		return arg_no;
+	else if (arg_no != 2) {
+		shell_free_parsed_argline(arguments, arg_no);
+		return E_INVALID_SYNTAX;
+	}
+	knode = kopen(shell_get_root_reference()->node, arguments[1]);
+	if (strlen(arguments[1]) > 255)
+		return E_CANT_GET_EXT_FILE;
+
+	strcpy(output_file_path, arguments[0]);
+	shell_free_parsed_argline(arguments, arg_no);
+
+	if (knode == NULL)
+		return E_FILE_NOT_FOUND;
+
+	if (knode->node->type != N_FILE)
+		return E_INVALID_TYPE;
+
+	output_fd = fopen(output_file_path, "w");
+	if (output_fd == NULL)
+		return E_CANT_GET_EXT_FILE;
+
+	/* TODO: we need a way to know how big is the node */
+	buffer = (void *)calloc(1, 500);
+	kread(knode, 500, buffer);
+	fwrite(buffer, 500, 1, output_fd);
+
+	free(buffer);
+	fclose(output_fd);
 	kclose(knode);
 
 	return EXIT_SUCCESS;
@@ -303,4 +354,3 @@ cmd_mkfile(char *argline) {
 
 	return EXIT_SUCCESS;
 }
-

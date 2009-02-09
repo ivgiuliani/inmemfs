@@ -3,7 +3,7 @@
 
 #include "node.h"
 
-#define SHELL_N_FUNCS 11
+#define SHELL_N_FUNCS 12
 #define MAX_CMD_LEN 20
 
 void shell(void);

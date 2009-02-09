@@ -35,6 +35,7 @@ struct _commands {
 	{ "mkfile",     cmd_mkfile },
 	{ "rmdir",      cmd_rmdir },
 	{ "setroot",    cmd_set_root },
+	{ "writeto",    cmd_writeto },
 };
 
 void
