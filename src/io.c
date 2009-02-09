@@ -45,7 +45,7 @@ _alloc_kfile(struct node *node) {
 	kfile = (KFILE)malloc(sizeof(struct _KFILE));
 
 	kfile->node = node;
-	kfile->node->first_chunk = NULL;
+	return kfile;
 }
 
 /*
