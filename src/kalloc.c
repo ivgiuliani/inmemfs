@@ -54,6 +54,7 @@ _alloc_chunk(const int size) {
 	Chunk *chunk = (Chunk *)malloc(sizeof(Chunk));
 	chunk->size = size;
 	chunk->memory = (void *)malloc(size);
+	chunk->next = NULL;
 	return chunk;
 }
 
