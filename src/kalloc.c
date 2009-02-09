@@ -64,11 +64,15 @@ _alloc_chunk(const int size) {
 void
 kfree(Chunk *chunk) {
 	Chunk *next = chunk;
+	Chunk *curr;
 
 	while (next != NULL) {
-		_mem_count -= chunk->size;
-		next = chunk->next;
-		free(chunk);
+		curr = next;
+		next = curr->next;
+
+		_mem_count -= curr->size;
+		free(curr->memory);
+		free(curr);
 	}
 }
 
