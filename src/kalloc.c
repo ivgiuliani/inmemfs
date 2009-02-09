@@ -51,8 +51,9 @@ kalloc(int size) {
  */
 Chunk *
 _alloc_chunk(const int size) {
-	Chunk *chunk = (Chunk *)malloc(size);
+	Chunk *chunk = (Chunk *)malloc(sizeof(Chunk));
 	chunk->size = size;
+	chunk->memory = (void *)malloc(size);
 	return chunk;
 }
 
@@ -103,6 +104,7 @@ _raw_kread(Chunk *c, unsigned int size, void *buffer) {
  * than the actual allocated memory, the whole allocated memory).
  * Do not use this function directly, we provided you kwrite which
  * will make your life much easier.
+ * Please note that this function does NOT allocate the needed memory.
  */
 unsigned int
 _raw_kwrite(Chunk *c, void *data, unsigned int size) {

@@ -63,5 +63,8 @@ kread(KFILE kfile, unsigned int size, void *buffer) {
  */
 unsigned int
 kwrite(KFILE kfile, void *data, unsigned int size) {
+	if (kfile->node->first_chunk == NULL)
+		kfile->node->first_chunk = kalloc(size);
+
 	return _raw_kwrite(kfile->node->first_chunk, data, size);
 }
