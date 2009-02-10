@@ -444,7 +444,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_shell, shell_make_file);
 
 	suite_add_tcase(s, tc_memory);
-	tcase_add_test(tc_shell, mem_alloc_1chunk);
+	tcase_add_test(tc_memory, mem_alloc_1chunk);
 
 	return s;
 }
