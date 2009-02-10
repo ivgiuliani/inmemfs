@@ -1,6 +1,7 @@
 TESTS = check_inmemfs
 check_PROGRAMS = check_inmemfs
 check_inmemfs_SOURCES = check.c                            \
+												test_tree.c                        \
 												test_memory.c                      \
 												test_shell.c                       \
 												$(top_builddir)/src/node.h         \
