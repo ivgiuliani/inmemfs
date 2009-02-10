@@ -36,8 +36,11 @@ kalloc(int size) {
 
 	if (rest != 0) {
 		chunk = _alloc_chunk(rest);
+
 		if (first == NULL)
 			first = chunk;
+		else if (prev != NULL)
+			prev->next = chunk;
 	}
 
 	_mem_count += size;
