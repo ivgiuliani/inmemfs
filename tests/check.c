@@ -6,7 +6,8 @@
 #include "../src/shell.h"
 #include "../src/commands.h"
 #include "../src/node.h"
-#include "../src/kalloc.h"
+
+#include "test_memory.h"
 
 START_TEST (node_creation)
 {
@@ -398,18 +399,6 @@ START_TEST (shell_make_file)
 }
 END_TEST
 
-START_TEST (mem_alloc_1chunk)
-{
-	Chunk *c = kalloc(CHUNK_SIZE);
-
-	/* we have just one chunk */
-	fail_unless (c->next == NULL);
-	fail_unless (c->size == CHUNK_SIZE);
-
-	kfree(c);
-}
-END_TEST
-
 Suite *
 inmemfs_suite(void) {
 	Suite *s = suite_create("Master");
@@ -443,8 +432,7 @@ inmemfs_suite(void) {
 	tcase_add_test(tc_shell, shell_invalid_chars_in_root);
 	tcase_add_test(tc_shell, shell_make_file);
 
-	suite_add_tcase(s, tc_memory);
-	tcase_add_test(tc_memory, mem_alloc_1chunk);
+	suite_add_tcase(s, tcase_memory());
 
 	return s;
 }

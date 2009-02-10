@@ -41,6 +41,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 am_check_inmemfs_OBJECTS = check_inmemfs-check.$(OBJEXT) \
+	check_inmemfs-test_memory.$(OBJEXT) \
 	check_inmemfs-node.$(OBJEXT) check_inmemfs-shell.$(OBJEXT) \
 	check_inmemfs-commands.$(OBJEXT) \
 	check_inmemfs-parser.$(OBJEXT) check_inmemfs-io.$(OBJEXT) \
@@ -148,7 +149,8 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-check_inmemfs_SOURCES = check.c \
+check_inmemfs_SOURCES = check.c                            \
+												test_memory.c                      \
 												$(top_builddir)/src/node.h         \
 												$(top_builddir)/src/node.c         \
 												$(top_builddir)/src/shell.h        \
@@ -217,6 +219,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-node.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-shell.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/check_inmemfs-test_memory.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -245,6 +248,20 @@ check_inmemfs-check.obj: check.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='check.c' object='check_inmemfs-check.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-check.obj `if test -f 'check.c'; then $(CYGPATH_W) 'check.c'; else $(CYGPATH_W) '$(srcdir)/check.c'; fi`
+
+check_inmemfs-test_memory.o: test_memory.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-test_memory.o -MD -MP -MF $(DEPDIR)/check_inmemfs-test_memory.Tpo -c -o check_inmemfs-test_memory.o `test -f 'test_memory.c' || echo '$(srcdir)/'`test_memory.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-test_memory.Tpo $(DEPDIR)/check_inmemfs-test_memory.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test_memory.c' object='check_inmemfs-test_memory.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-test_memory.o `test -f 'test_memory.c' || echo '$(srcdir)/'`test_memory.c
+
+check_inmemfs-test_memory.obj: test_memory.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-test_memory.obj -MD -MP -MF $(DEPDIR)/check_inmemfs-test_memory.Tpo -c -o check_inmemfs-test_memory.obj `if test -f 'test_memory.c'; then $(CYGPATH_W) 'test_memory.c'; else $(CYGPATH_W) '$(srcdir)/test_memory.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/check_inmemfs-test_memory.Tpo $(DEPDIR)/check_inmemfs-test_memory.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test_memory.c' object='check_inmemfs-test_memory.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -c -o check_inmemfs-test_memory.obj `if test -f 'test_memory.c'; then $(CYGPATH_W) 'test_memory.c'; else $(CYGPATH_W) '$(srcdir)/test_memory.c'; fi`
 
 check_inmemfs-node.o: $(top_builddir)/src/node.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(check_inmemfs_CFLAGS) $(CFLAGS) -MT check_inmemfs-node.o -MD -MP -MF $(DEPDIR)/check_inmemfs-node.Tpo -c -o check_inmemfs-node.o `test -f '$(top_builddir)/src/node.c' || echo '$(srcdir)/'`$(top_builddir)/src/node.c
