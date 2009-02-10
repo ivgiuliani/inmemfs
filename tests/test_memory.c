@@ -32,7 +32,6 @@ START_TEST (mem_alloc_n_chunks)
 
 	fail_unless (i == 10);
 
-	printf("s: %d\n", chunk->size);
 	fail_unless (chunk->size == 1);
 
 	kfree(first);
