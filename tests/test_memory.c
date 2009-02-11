@@ -99,6 +99,27 @@ START_TEST (mem_cant_write_directory)
 }
 END_TEST
 
+START_TEST (mem_alloc_large_qty)
+{
+	/* Ensure we can allocate correctly large quantities
+	 * of data
+	 */
+	Chunk *first = kalloc(CHUNK_SIZE * 50);
+	Chunk *chunk = first;
+	unsigned int i = 0;
+
+	while (chunk->next != NULL) {
+		i++;
+		chunk = chunk->next;
+		fail_unless (chunk->size == CHUNK_SIZE);
+	}
+
+	fail_unless (i == 49);
+
+	kfree(first);
+}
+END_TEST
+
 TCase *
 tcase_memory(void) {
 	TCase *tc_memory = tcase_create("Memory allocation tests");
@@ -108,6 +129,7 @@ tcase_memory(void) {
 	tcase_add_test(tc_memory, mem_alloc_less_than_1_chunk);
 	tcase_add_test(tc_memory, mem_write_node);
 	tcase_add_test(tc_memory, mem_cant_write_directory);
+	tcase_add_test(tc_memory, mem_alloc_large_qty);
 
 	return tc_memory;
 }
