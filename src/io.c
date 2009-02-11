@@ -2,6 +2,7 @@
 
 #include "node.h"
 #include "io.h"
+#include "errors.h"
 
 KFILE
 kopen(struct node *root, char *path) {
@@ -54,6 +55,8 @@ _alloc_kfile(struct node *node) {
  */
 unsigned int
 kread(KFILE kfile, unsigned int size, void *buffer) {
+	if (kfile->node->type != N_FILE)
+		return E_INVALID_TYPE;
 	return _raw_kread(kfile->node->first_chunk, size, buffer);
 }
 
@@ -63,6 +66,9 @@ kread(KFILE kfile, unsigned int size, void *buffer) {
  */
 unsigned int
 kwrite(KFILE kfile, void *data, unsigned int size) {
+	if (kfile->node->type != N_FILE)
+		return E_INVALID_TYPE;
+
 	if (kfile->node->first_chunk == NULL)
 		kfile->node->first_chunk = kalloc(size);
 
