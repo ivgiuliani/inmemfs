@@ -76,6 +76,7 @@ START_TEST (mem_write_node)
 
 	free(buffer);
 	kclose(kfile);
+	node_delete(root);
 }
 END_TEST
 
@@ -96,6 +97,7 @@ START_TEST (mem_cant_write_directory)
 
 	free(buffer);
 	kclose(kfile);
+	node_delete(root);
 }
 END_TEST
 
@@ -120,6 +122,33 @@ START_TEST (mem_alloc_large_qty)
 }
 END_TEST
 
+START_TEST (mem_multiple_reads)
+{
+	struct node *root = node_create("root", N_DIRECTORY);
+	struct node *node = node_create("node", N_FILE);
+	KFILE kfile;
+	char *orig = "I am the walrus";
+	char *buffer = (char *)malloc(strlen(orig));
+
+	node_add_child(root, node);
+	kfile = kopen(root, "node");
+	kwrite(kfile, orig, strlen(orig));
+
+	kread(kfile, 5, buffer);
+	fail_unless (strcmp(buffer, "I am ") == 0);
+
+	kread(kfile, 4, buffer);
+	fail_unless (strcmp(buffer, "the ") == 0);
+
+	kread(kfile, 6, buffer);
+	fail_unless (strcmp(buffer, "walrus") == 0);
+
+	free(buffer);
+	kclose(kfile);
+	node_delete(root);
+}
+END_TEST
+
 TCase *
 tcase_memory(void) {
 	TCase *tc_memory = tcase_create("Memory allocation tests");
@@ -130,6 +159,7 @@ tcase_memory(void) {
 	tcase_add_test(tc_memory, mem_write_node);
 	tcase_add_test(tc_memory, mem_cant_write_directory);
 	tcase_add_test(tc_memory, mem_alloc_large_qty);
+	tcase_add_test(tc_memory, mem_multiple_reads);
 
 	return tc_memory;
 }
