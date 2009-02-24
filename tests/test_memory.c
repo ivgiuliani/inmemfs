@@ -12,46 +12,11 @@
 #include "../src/io.h"
 #include "../src/errors.h"
 
-START_TEST (mem_alloc_1chunk)
-{
-	Chunk *c = kalloc(CHUNK_SIZE);
-
-	/* we have just one chunk */
-	fail_unless (c->next == NULL);
-	fail_unless (c->size == CHUNK_SIZE);
-
-	kfree(c);
-}
-END_TEST
-
-START_TEST (mem_alloc_n_chunks)
-{
-	/* will allocate 10 chunks CHUNK_SIZE large and another
-	 * chunk of one byte
-	 */
-	Chunk *first = kalloc((CHUNK_SIZE * 10) + 1);
-	Chunk *chunk = first;
-	unsigned short int i = 0;
-
-	while (chunk->next != NULL) {
-		i++;
-		fail_unless (chunk->size == CHUNK_SIZE);
-		chunk = chunk->next;
-	}
-
-	fail_unless (i == 10);
-	fail_unless (chunk->size == 1);
-
-	kfree(first);
-}
-END_TEST
-
-START_TEST (mem_alloc_less_than_1_chunk)
+START_TEST (mem_alloc_1byte)
 {
 	Chunk *c = kalloc(1);
 
 	/* we have just one chunk */
-	fail_unless (c->next == NULL);
 	fail_unless (c->size == 1);
 
 	kfree(c);
@@ -101,27 +66,6 @@ START_TEST (mem_cant_write_directory)
 }
 END_TEST
 
-START_TEST (mem_alloc_large_qty)
-{
-	/* Ensure we can allocate correctly large quantities
-	 * of data
-	 */
-	Chunk *first = kalloc(CHUNK_SIZE * 50);
-	Chunk *chunk = first;
-	unsigned int i = 0;
-
-	while (chunk->next != NULL) {
-		i++;
-		chunk = chunk->next;
-		fail_unless (chunk->size == CHUNK_SIZE);
-	}
-
-	fail_unless (i == 49);
-
-	kfree(first);
-}
-END_TEST
-
 START_TEST (mem_multiple_reads)
 {
 	struct node *root = node_create("root", N_DIRECTORY);
@@ -153,12 +97,9 @@ TCase *
 tcase_memory(void) {
 	TCase *tc_memory = tcase_create("Memory allocation tests");
 
-	tcase_add_test(tc_memory, mem_alloc_1chunk);
-	tcase_add_test(tc_memory, mem_alloc_n_chunks);
-	tcase_add_test(tc_memory, mem_alloc_less_than_1_chunk);
+	tcase_add_test(tc_memory, mem_alloc_1byte);
 	tcase_add_test(tc_memory, mem_write_node);
 	tcase_add_test(tc_memory, mem_cant_write_directory);
-	tcase_add_test(tc_memory, mem_alloc_large_qty);
 	tcase_add_test(tc_memory, mem_multiple_reads);
 
 	return tc_memory;

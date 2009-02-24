@@ -3,7 +3,6 @@
 
 typedef struct _chunk {
 	unsigned int size;
-	struct _chunk *next;
 	void *memory;
 } Chunk;
 
