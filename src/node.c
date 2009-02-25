@@ -109,6 +109,7 @@ node_delete_child(struct node *father, struct node *children) {
 
 	node_delete(children);
 	free(delnl);
+	father->children_no--;
 }
 
 int
