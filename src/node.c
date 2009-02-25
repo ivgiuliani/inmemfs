@@ -78,7 +78,7 @@ node_delete(struct node *n) {
 		}
 	}
 
-	if (n->type == N_FILE)
+	if ((n->type == N_FILE) && (n->first_chunk != NULL))
 		kfree(n->first_chunk);
 
 	free(n);

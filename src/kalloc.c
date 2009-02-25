@@ -45,6 +45,9 @@ kfree(Chunk *chunk) {
 	_mem_count -= chunk->size;
 	free(chunk->memory);
 	free(chunk);
+
+	/* invalidate the pointer to the chunk */
+	chunk = NULL;
 }
 
 
